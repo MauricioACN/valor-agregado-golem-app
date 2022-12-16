@@ -1,0 +1,64 @@
+#' name_of_module2 UI Function
+#'
+#' @description A shiny Module.
+#'
+#' @param id,input,output,session Internal parameters for {shiny}.
+#'
+#' @noRd
+#'
+#' @importFrom shiny NS tagList
+#' @importFrom dplyr mutate select sample_n pull distinct
+#' @importFrom rlang sym
+#' @importFrom shinyWidgets pickerInput
+
+mod_name_of_module2_ui <- function(id){
+  ns <- NS(id)
+  tagList(
+    numericInput(inputId = ns('muestra'),
+                 label = 'Seleccione la muestra que desea visualizar',
+                 value = nrow(resultados),
+                 min = 1000,
+                 max = nrow(resultados)),
+    shiny::selectInput(inputId = ns("programa"),
+                       label = "Seleccione el programa que desea visualizar:",
+                       choices = resultados %>% distinct(!!sym("GRUPOREFERENCIA")) %>% pull()),
+    pickerInput(inputId = ns("periodo"),
+                label = "Seleccione los periodos a visualizar",
+                choices = mediasSaber11 %>% distinct(!!sym("periodoAux")) %>% pull(),
+                options = list(`actions-box` = TRUE),
+                multiple = T,
+                selected = 1),
+    plotOutput(ns('grafico_general'))
+  )
+}
+
+#' name_of_module2 Server Functions
+#'
+#' @noRd
+mod_name_of_module2_server <- function(id,datos, saberPro, saber11){
+  moduleServer( id, function(input, output, session){
+    ns <- session$ns
+
+    datos_clean_sample <- reactive({
+      clean_resultados(datos, n_sample = input$muestra, grupo = input$programa)
+    })
+
+    mediaPro <- reactive({
+      calculate_mean_pro(saberPro, grupo = input$programa)
+    })
+
+    media11 <- reactive({
+
+      calculate_mean_11(saber11,periodo = input$periodo)
+
+    })
+
+    output$grafico_general <- renderPlot({
+
+      create_grs(resultados = datos_clean_sample(), mediasSaber11 = media11(), mediasSaberPro = mediaPro(), grupo = input$programa)
+
+    })
+
+  })
+}
+
