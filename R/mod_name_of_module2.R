@@ -16,15 +16,15 @@ mod_name_of_module2_ui <- function(id){
     shiny::sidebarLayout(
     shiny::sidebarPanel(
       shiny::sliderInput(inputId = ns('muestra'),
-                         label = 'Seleccione la muestra que desea visualizar',
+                         label = 'Seleccione la muestra que desea visualizar:',
                          min = 1000,
                          max = nrow(resultados),
                          value = nrow(resultados)),
     shiny::selectInput(inputId = ns("programa"),
-                       label = "Seleccione el programa que desea visualizar:",
+                       label = "Seleccione el grupo de referencia que desea visualizar:",
                        choices = resultados %>% distinct(!!sym("GRUPOREFERENCIA")) %>% pull()),
     shiny::selectizeInput(inputId = ns("periodo"),
-                label = "Seleccione los periodos a visualizar",
+                label = "Seleccione los periodos a visualizar:",
                 choices = mediasSaber11 %>% distinct(!!sym("periodoAux")) %>% pull(),
                 multiple = T,
                 selected = c(1,2)),

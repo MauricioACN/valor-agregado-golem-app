@@ -6,10 +6,10 @@ txt_info_m2 <- '
                               En los gráficos de dispersión, el eje x corresponde a los puntajes del examen Saber 11, mientras que el eje y corresponde a los puntajes del examen Saber Pro. Se tiene una línea horizontal que corresponde al promedio nacional de la correspondiente prueba, en el grupo de referencia determinado. Por otro lado, la línea vertical, denota el promedio nacional, del correspondiente módulo.
                               Con las líneas que denotan los promedios nacionales en las gráficas se conforman cuatro cuadrantes, así:
                               </br></br>
-                              Cuadrante 1: superior derecho
-                              Cuadrante 2: superior izquierdo
-                              Cuadrante 3: inferior izquierdo
-                              Cuadrante 4: inferior derecho
+                              <li> Cuadrante 1: superior derecho </li>
+                              <li> Cuadrante 2: superior izquierdo </li>
+                              <li> Cuadrante 3: inferior izquierdo </li>
+                              <li> Cuadrante 4: inferior derecho </li>
                               </br></br>
                               En cada uno de estos cuadrantes, se muestra el porcentaje de estudiantes del correspondiente programa y prueba, que pertenece a dicho cuadrante, de manera que los porcentajes en cada cuadrante se leen así:
                               </br></br>
