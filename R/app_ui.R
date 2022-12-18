@@ -15,9 +15,7 @@ app_ui <- function(request) {
                       id = 'navbar',collapsible = TRUE,
                       theme = bs_theme(
                         version = 5,
-                        bootswatch = 'minty',
-                        bg = "#002B36", fg = "#EEE8D5",
-                       "progress-bar-bg" = "orange"),
+                        bootswatch = 'morph'),
 
     shiny::tabPanel(title = 'Inicio',value = 'inicio'),
     shiny::tabPanel(title = 'Grupo Referencia',value = 'grupo_ref',

@@ -28,9 +28,12 @@ mod_name_of_module2_ui <- function(id){
                 choices = mediasSaber11 %>% distinct(!!sym("periodoAux")) %>% pull(),
                 multiple = T,
                 selected = c(1,2)),
+    br()
     ),
     shiny::mainPanel(
-    plotOutput(ns('grafico_general')))
+      shiny::HTML(txt_info_m2),
+      br(),
+      plotOutput(ns('grafico_general')))
   )
   )
 }

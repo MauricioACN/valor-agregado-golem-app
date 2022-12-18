@@ -14,7 +14,8 @@ Imports:
     magrittr,
     rlang,
     shiny (>= 1.7.3),
-    shinyWidgets
+    shinyWidgets,
+    thematic
 Suggests: 
     spelling,
     testthat (>= 3.0.0)

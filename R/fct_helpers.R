@@ -10,6 +10,9 @@
 #' @import ggplot2
 #' @import gridExtra
 #' @importFrom rlang sym
+#' @importFrom thematic thematic_on
+
+thematic::thematic_on(bg="auto",fg="auto",accent = "auto", font = "auto")
 
 clean_resultados <- function(data, n_sample, grupo){
 

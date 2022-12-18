@@ -48,6 +48,7 @@ usethis::use_package('bslib')
 usethis::use_package('rlang')
 usethis::use_package('ggplot2')
 usethis::use_package('gridExtra')
+usethis::use_package('thematic')
 usethis::use_package('shinyWidgets')
 usethis::use_pipe()
 
