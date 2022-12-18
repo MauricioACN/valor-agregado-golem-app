@@ -13,23 +13,25 @@
 mod_name_of_module2_ui <- function(id){
   ns <- NS(id)
   tagList(
+    shiny::sidebarLayout(
     shiny::sidebarPanel(
-    numericInput(inputId = ns('muestra'),
-                 label = 'Seleccione la muestra que desea visualizar',
-                 value = nrow(resultados),
-                 min = 1000,
-                 max = nrow(resultados)),
+      shiny::sliderInput(inputId = ns('muestra'),
+                         label = 'Seleccione la muestra que desea visualizar',
+                         min = 1000,
+                         max = nrow(resultados),
+                         value = nrow(resultados)),
     shiny::selectInput(inputId = ns("programa"),
                        label = "Seleccione el programa que desea visualizar:",
                        choices = resultados %>% distinct(!!sym("GRUPOREFERENCIA")) %>% pull()),
-    selectInput(inputId = ns("periodo"),
+    shiny::selectizeInput(inputId = ns("periodo"),
                 label = "Seleccione los periodos a visualizar",
                 choices = mediasSaber11 %>% distinct(!!sym("periodoAux")) %>% pull(),
                 multiple = T,
                 selected = c(1,2)),
-    br()),
-    mainPanel(
+    ),
+    shiny::mainPanel(
     plotOutput(ns('grafico_general')))
+  )
   )
 }
 

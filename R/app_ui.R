@@ -13,11 +13,14 @@ app_ui <- function(request) {
     # Your application UI logic
     shiny::navbarPage(title = 'IVA',
                       id = 'navbar',collapsible = TRUE,
-                      theme = bs_theme(bootswatch = 'solar'),
+                      theme = bs_theme(
+                        version = 5,
+                        bootswatch = 'minty',
+                        bg = "#002B36", fg = "#EEE8D5",
+                       "progress-bar-bg" = "orange"),
 
     shiny::tabPanel(title = 'Inicio',value = 'inicio'),
     shiny::tabPanel(title = 'Grupo Referencia',value = 'grupo_ref',
-                    h1("valoragregado"),
                     mod_name_of_module2_ui("name_of_module2_1")),
     shiny::tabPanel(title = 'Modelo',value = 'modelo'),
   )
