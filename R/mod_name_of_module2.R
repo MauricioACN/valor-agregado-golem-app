@@ -9,11 +9,11 @@
 #' @importFrom shiny NS tagList
 #' @importFrom dplyr mutate select sample_n pull distinct
 #' @importFrom rlang sym
-#' @importFrom shinyWidgets pickerInput
 
 mod_name_of_module2_ui <- function(id){
   ns <- NS(id)
   tagList(
+    shiny::sidebarPanel(
     numericInput(inputId = ns('muestra'),
                  label = 'Seleccione la muestra que desea visualizar',
                  value = nrow(resultados),
@@ -22,13 +22,14 @@ mod_name_of_module2_ui <- function(id){
     shiny::selectInput(inputId = ns("programa"),
                        label = "Seleccione el programa que desea visualizar:",
                        choices = resultados %>% distinct(!!sym("GRUPOREFERENCIA")) %>% pull()),
-    pickerInput(inputId = ns("periodo"),
+    selectInput(inputId = ns("periodo"),
                 label = "Seleccione los periodos a visualizar",
                 choices = mediasSaber11 %>% distinct(!!sym("periodoAux")) %>% pull(),
-                options = list(`actions-box` = TRUE),
                 multiple = T,
-                selected = 1),
-    plotOutput(ns('grafico_general'))
+                selected = c(1,2)),
+    br()),
+    mainPanel(
+    plotOutput(ns('grafico_general')))
   )
 }
 
