@@ -10,12 +10,15 @@ app_ui <- function(request) {
     # Leave this function for adding external resources
     golem_add_external_resources(),
     # Your application UI logic
-    fluidPage(
-      theme = bs_theme(bootswatch = 'solar'),
-      h1("valoragregado"),
-      # mod_name_of_module1_ui("name_of_module1_1"),
-      mod_name_of_module2_ui("name_of_module2_1")
-    )
+    shiny::navbarPage(title = 'IVA',
+                      id = 'navbar',collapsible = TRUE,
+                      # theme = bs_theme(bootswatch = 'solar')
+                      ),
+    shiny::tabPanel(title = 'Inicio',value = 'inicio'),
+    shiny::tabPanel(title = 'Grupo Referencia',value = 'grupo_ref',
+                    h1("valoragregado"),
+                    mod_name_of_module2_ui("name_of_module2_1")),
+    shiny::tabPanel(title = 'Modelo',value = 'modelo'),
   )
 }
 

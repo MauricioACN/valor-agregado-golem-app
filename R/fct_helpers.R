@@ -34,7 +34,7 @@ clean_resultados <- function(data, n_sample, grupo){
 
 calculate_mean_pro <- function(mediasSaberPro,grupo){
 
-  mediaPro <- mediasSaberPro %>% filter(!!sym("GRUPOREFERENCIA") == grupo)
+  mediaPro <- mediasSaberPro %>% filter(!!sym("GRUPOREFERENCIA") %in% grupo)
   return(mediaPro)
 }
 
@@ -63,6 +63,11 @@ create_graph_general <- function(datos, mediasSaber11, mediasSaberPro, grupo, pr
 
   mediaPro <- mediasSaberPro %>% select(all_of(prueba))
   mediaPro <- as.numeric(mediaPro)
+
+  # if(is.na(mediaPro)){
+  #   mediaPro <- mean(mediasSaberPro[prueba])
+  #   mediaPro <- as.numeric(mediaPro)
+  # }
 
   # media11 <- mediasSaber11 %>% select(all_of(c(x)))
   media11 <- mediasSaber11[x]
