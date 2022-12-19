@@ -77,7 +77,7 @@ mod_name_of_module2_server <- function(id,datos, saberPro, saber11){
         title = "Periodos",
         HTML(txt_info_periodos),
         easyClose = TRUE,
-        size = "s",
+        size = "xl",
         footer = NULL
       )
       )
