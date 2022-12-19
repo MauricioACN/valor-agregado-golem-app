@@ -28,12 +28,18 @@ mod_name_of_module2_ui <- function(id){
                 choices = mediasSaber11 %>% distinct(!!sym("periodoAux")) %>% pull(),
                 multiple = T,
                 selected = c(1,2)),
+    actionLink(ns('help_periodos'),
+                 icon = icon('circle-info'),
+                 label = ''
+                 ),
     br()
     ),
     shiny::mainPanel(
-      shiny::HTML(txt_info_m2),
+      shiny::HTML(txt_info_m2_p1),
       br(),
-      plotOutput(ns('grafico_general')))
+      plotOutput(ns('grafico_general')),
+      br(),
+      shiny::HTML(txt_info_m2_p2))
   )
   )
 }
@@ -63,6 +69,18 @@ mod_name_of_module2_server <- function(id,datos, saberPro, saber11){
 
       create_grs(resultados = datos_clean_sample(), mediasSaber11 = media11(), mediasSaberPro = mediaPro(), grupo = input$programa)
 
+    })
+
+    observeEvent(input$help_periodos,{
+      showModal(
+        modalDialog(
+        title = "Periodos",
+        HTML(txt_info_periodos),
+        easyClose = TRUE,
+        size = "s",
+        footer = NULL
+      )
+      )
     })
 
   })
