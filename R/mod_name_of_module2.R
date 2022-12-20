@@ -30,7 +30,7 @@ mod_name_of_module2_ui <- function(id){
                 selected = c(1,2)),
     actionLink(ns('help_periodos'),
                  icon = icon('circle-info'),
-                 label = ''
+                 label = 'Ayuda'
                  ),
     br()
     ),
