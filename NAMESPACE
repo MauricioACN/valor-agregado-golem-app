@@ -2,6 +2,7 @@
 
 export("%>%")
 export(run_app)
+import(bslib)
 import(ggplot2)
 import(gridExtra)
 import(htmltools)
