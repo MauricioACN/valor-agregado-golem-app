@@ -3,6 +3,8 @@
 #' @param input,output,session Internal parameters for {shiny}.
 #'     DO NOT REMOVE.
 #' @import shiny
+#' @importFrom dplyr mutate
+#' @importFrom stringr str_to_title
 #' @noRd
 app_server <- function(input, output, session) {
   # Your application server logic

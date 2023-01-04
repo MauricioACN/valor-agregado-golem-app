@@ -15,6 +15,7 @@ Imports:
     rlang,
     shiny (>= 1.7.3),
     shinyWidgets,
+    stringr,
     thematic
 Suggests: 
     spelling,

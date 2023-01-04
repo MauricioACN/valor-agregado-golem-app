@@ -11,6 +11,7 @@
 #' @import gridExtra
 #' @importFrom rlang sym
 #' @importFrom thematic thematic_on
+#' @importFrom stringr str_to_title
 
 # thematic::thematic_on(bg="auto",fg="auto",accent = "auto", font = "auto")
 
@@ -43,7 +44,12 @@ calculate_mean_pro <- function(mediasSaberPro,grupo){
 
 calculate_mean_11 <- function(media11,periodo){
 
-    media11_mean <- media11 %>% filter(periodoAux == periodo) %>% colMeans(.)
+    # media11_mean <- media11 %>% filter(periodoAux == periodo) %>% colMeans(.)
+    media11_mean <- media11 %>%
+      filter(periodoAux == periodo) %>%
+      dplyr::select(-c(periodoAux)) %>%
+      colMeans(.)
+
 
   return(media11_mean)
 }
