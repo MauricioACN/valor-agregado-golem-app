@@ -21,6 +21,9 @@ app_ui <- function(request) {
     shiny::tabPanel(title = 'Grupo Referencia',value = 'grupo_ref',
                     mod_name_of_module2_ui("name_of_module2_1")),
     shiny::tabPanel(title = 'Modelo',value = 'modelo'),
+    shiny::tabPanel(title = 'Comparador',value = 'compara',
+                    mod_comparador_ui("comparador_1")
+                    )
   )
   )
   )
