@@ -35,22 +35,8 @@ mod_comparador_server <- function(id,datos,saberPro,saber11){
 
     datos_clean_1 <- reactive({
 
-      sal_1 = clean_resultados(datos, grupo = input$grupo_referencia)
+      clean_resultados(datos, grupo = input$grupo_referencia)
 
-      if(input$incluir_universidad==T & input$incluir_programa==T){
-
-        sal_1 = sal_1 %>% dplyr::filter(!!sym("ESTU_PRGM_ACADEMICO")==input$filtro_programa,
-                                        !!sym("INST_NOMBRE_INSTITUCION")==input$filtro_universidad)
-
-      }
-      if(input$incluir_universidad==T){
-
-          sal_1 = sal_1 %>% dplyr::filter(!!sym("INST_NOMBRE_INSTITUCION")==input$filtro_universidad)
-      }
-      if(input$incluir_programa==T){
-        sal_1 = sal_1 %>% dplyr::filter(!!sym("ESTU_PRGM_ACADEMICO")==input$filtro_programa)
-      }
-      sal_1
     })
 
     mediaPro <- reactive({
@@ -65,119 +51,113 @@ mod_comparador_server <- function(id,datos,saberPro,saber11){
 
     output$myCard <- renderUI({
 
-      caja1 <- card(
+      card(
            card_header(
              class = "bg-dark",
              "Configuración"
            ),
            card_body(border_radius = 'all',
-                          fluidRow(
-                            column(12,
-                                   fluidRow(
-                                     column(6,style = "text-align: center;",
-                                            shiny::checkboxInput(inputId = ns('incluir_universidad'),
-                                                                   label = "Inluir Universidad",
-                                                                   value = F)
-                                            ),
-                                     column(6,style = "text-align: center;",
-                                            shiny::checkboxInput(inputId = ns('incluir_programa'),
-                                                                   label = "Incluir Programa",
-                                                                   value = F)
-                                     )
-                                   )
-                                   )
-                          ),
-      fluidRow(
-        column(4,
-               shiny::selectInput(inputId = ns('grupo_referencia'),
+
+                     fluidRow(
+                       column(4,
+                              shiny::selectInput(inputId = ns('grupo_referencia'),
                                   label = 'Grupo de Referencia:',
                                   choices = resultados %>% distinct(!!sym("GRUPOREFERENCIA")) %>% pull(),
-                                  size = 3,selectize=F,multiple = T,selected = resultados$GRUPOREFERENCIA[1]),
-               ),
-        column(4,
-               shiny::selectInput(inputId = ns('prueba'),
+                                  size = 3,selectize=F,multiple = T,selected = resultados$GRUPOREFERENCIA[1])
+                              ),
+                       column(4,
+                              shiny::selectInput(inputId = ns('prueba'),
                                   label = 'Prueba:',
                                   choices = c('Puntaje Global','Razonamiento Cuantitativo','Inglés','Lectura Crítica'),
-                                  size = 3,selectize=F)
-               ),
-        column(4,
-               shiny::selectInput(inputId = ns('periodo'),
+                                  size = 3,selectize=F)),
+                       column(4,
+                              shiny::selectInput(inputId = ns('periodo'),
                                          label = 'Periodo:',
                                          choices = mediasSaber11 %>% distinct(!!sym("periodoAux")) %>% pull(),
                                   selected = mediasSaber11$periodoAux,
                                   size = 3,selectize=F,multiple = T)
-               )
+                              )
                ),
-      fluidRow(
-        column(12,
                fluidRow(
                  column(6,style = "text-align: center;",
-                        shiny::uiOutput(ns('output_universidad'))),
-                 column(6,style = "text-align: center;",
-                        shiny::uiOutput(ns('output_programa')))
-               ))
+                        shiny::selectInput(inputId = ns('incluir_universidad_programa'),
+                                           label = 'Filtrar Por:',
+                                           choices = c('Universidad','Programa','Ambas'),
+                                           selected = 'Ambas',selectize = F,size = 3)),
+                 column(6,style = "text-align: center;",shiny::uiOutput(ns('output_universidad_programa'))
+                 # column(6,style = "text-align: center;",
+                 #        shiny::checkboxInput(inputId = ns('incluir_universidad'),
+                 #                               label = "Inluir Universidad",
+                 #                               value = F)
+                 #        ),
+                 # column(6,style = "text-align: center;",
+                 #        shiny::checkboxInput(inputId = ns('incluir_programa'),
+                 #                               label = "Incluir Programa",
+                 #                               value = F))
+               ),
+      # fluidRow(
+      #
+      #   column(12,style = "text-align: center;",shiny::uiOutput(ns('output_universidad_programa'))
+      #
+      #          # fluidRow(
+      #          #   column(6,style = "text-align: center;",
+      #          #          shiny::uiOutput(ns('output_universidad'))),
+      #          #   column(6,style = "text-align: center;",
+      #          #          shiny::uiOutput(ns('output_programa')))
+      #          # )
+      #          )
       )
            ),
       card_footer("Para seleccionar más de un elemento, mantener presionado Ctrl.")
       )
 
-      # layout_column_wrap(
-      #   width = 1,fill = TRUE,
-      #   heights_equal = "row",
-      #   caja1
-      # )
-
-      caja1
     })
 
-    # toListen <- reactive({
-    #   list(!is.null(input$incluir_universidad),!is.null(input$incluir_programa))
-    # })
-    #
-    # observeEvent(toListen(), {
-    #
-    #   choices_uni = datos_clean_1() %>% distinct(!!sym("INST_NOMBRE_INSTITUCION")) %>% pull()
-    #   choices_pro = datos_clean_1() %>% distinct(!!sym("ESTU_PRGM_ACADEMICO")) %>% pull()
-    #
-    #   updateSelectInput(inputId = "filtro_universidad", choices = choices_uni)
-    #   updateSelectInput(inputId = "filtro_programa", choices = choices_pro)
-    #
-    # })
+    output$output_universidad_programa <- renderUI({
 
-    # observe({
-    #   req(input$incluir_universidad)
-    #
-    #   choices_pro = datos_clean_1() %>% distinct(!!sym("ESTU_PRGM_ACADEMICO")) %>% pull()
-    #   updateSelectInput(inputId = "filtro_programa", choices = choices_pro)
-    # })
+      if(input$incluir_universidad_programa=='Ambas'){
 
-    output$output_universidad <-renderUI({
-      req(input$incluir_universidad,datos_clean_1())
+        return()
 
-      choices = datos_clean_1() %>% distinct(!!sym("INST_NOMBRE_INSTITUCION")) %>% pull()
+      }
+      else if(input$incluir_universidad_programa=="Universidad"){
 
         selectInput(inputId = ns("filtro_universidad"),
                     label = "Universidad:",
-                    choices = choices,
+                    choices = datos_clean_1() %>% distinct(!!sym("INST_NOMBRE_INSTITUCION")) %>% pull(),
+                    selected = datos_clean_1()$INST_NOMBRE_INSTITUCION[1],
                     multiple = T,
                     size = 3,
-                    selectize=F,
-                    selected = datos_clean_1()$INST_NOMBRE_INSTITUCION[1])
-          })
+                    selectize=F)
 
+      }
 
-    output$output_programa <-renderUI({
-      req(input$incluir_programa,datos_clean_1())
-
-      choices = datos_clean_1() %>% distinct(!!sym("ESTU_PRGM_ACADEMICO")) %>% pull()
+      else if(input$incluir_universidad_programa=="Programa"){
 
         selectInput(inputId = ns("filtro_programa"),
                     label = "Programa:",
-                    choices = choices,
+                    choices = datos_clean_1() %>% distinct(!!sym("ESTU_PRGM_ACADEMICO")) %>% pull(),
+                    selected = datos_clean_1()$ESTU_PRGM_ACADEMICO[1],
                     multiple = T,
                     selectize = F,
-                    size =  3,
-                    selected = datos_clean_1()$ESTU_PRGM_ACADEMICO[1])
+                    size =  3)
+      }
+
+    })
+
+
+    df_clean_final <- reactive({
+
+      if(input$incluir_universidad_programa=="Universidad"){
+        datos_clean_1() %>% dplyr::filter(!!sym("INST_NOMBRE_INSTITUCION")==input$filtro_universidad)
+      }
+      else if(input$incluir_universidad_programa=="Programa"){
+        datos_clean_1() %>% dplyr::filter(!!sym("ESTU_PRGM_ACADEMICO")==input$filtro_programa)
+      }
+      else{
+        datos_clean_1()
+      }
+
     })
 
     output$grafico1 <- renderUI({
@@ -195,13 +175,6 @@ mod_comparador_server <- function(id,datos,saberPro,saber11){
 
     })
 
-
-  output$datos_clean_final <- reactive({
-
-
-
-  })
-
     output$grafico_general <- renderPlot({
 
       if (input$prueba=='Puntaje Global'){
@@ -217,45 +190,9 @@ mod_comparador_server <- function(id,datos,saberPro,saber11){
         sal = 'MOD_LECTURA_CRITICA_PUNT'
       }
 
-      create_graph_general_var(datos_clean_1(), media11(), mediaPro(), input$grupo_referencia, prueba = sal)
+      create_graph_general_var(df_clean_final(), media11(), mediaPro(), input$grupo_referencia, prueba = sal)
 
     })
-
-    output$myCard3 <- renderUI({
-
-      card(title = "Grafico", body = 'text texto texto'
-
-      )
-
-    })
-
-
-    output$myCard4 <- renderUI({
-
-      # card(
-      #   card_header('Configuración',class = "bg-dark"),
-      #   card_body_fill(
-
-          shinyWidgets::selectizeGroupUI(
-            id = "my-filters",
-            params = list(
-              GRUPOREFERENCIA = list(inputId = "GRUPOREFERENCIA", title = "Grupo de Referencia:"),
-              INST_NOMBRE_INSTITUCION = list(inputId = "INST_NOMBRE_INSTITUCION", title = "Universidad:"),
-              ESTU_PRGM_ACADEMICO = list(inputId = "ESTU_PRGM_ACADEMICO", title = "Programa:")
-            ),inline = FALSE)
-        # )
-
-      # )
-
-
-    })
-
-    res_mod <- callModule(
-      module = selectizeGroupServer,
-      id = "my-filters",
-      data = datos,
-      vars = names(datos)
-    )
 
   })
 }
