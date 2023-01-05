@@ -63,7 +63,7 @@ mod_comparador_server <- function(id,datos,saberPro,saber11){
                               shiny::selectInput(inputId = ns('grupo_referencia'),
                                   label = 'Grupo de Referencia:',
                                   choices = resultados %>% distinct(!!sym("GRUPOREFERENCIA")) %>% pull(),
-                                  size = 3,selectize=F,multiple = T,selected = resultados$GRUPOREFERENCIA[1])
+                                  size = 3,selectize=F,multiple = F,selected = resultados$GRUPOREFERENCIA[1])
                               ),
                        column(4,
                               shiny::selectInput(inputId = ns('prueba'),
@@ -167,9 +167,17 @@ mod_comparador_server <- function(id,datos,saberPro,saber11){
              class = "bg-dark",
              paste("Relación puntajes de las pruebas Saber Pro y Saber 11")
            ),
-           plotOutput(ns('grafico_general')),
+
+             plotOutput(ns('grafico_general')),
+
            card_footer(
-             paste("Grupo de referencia ", input$grupo_referencia, " - ", input$prueba)
+
+             if (length(input$grupo_referencia)>1){
+               paste("Grupo de referencia ", 'Varios', " - ", input$prueba)
+             }
+             else{
+               paste("Grupo de referencia ", input$grupo_referencia, " - ", input$prueba)
+             }
            )
       )
 
@@ -190,7 +198,7 @@ mod_comparador_server <- function(id,datos,saberPro,saber11){
         sal = 'MOD_LECTURA_CRITICA_PUNT'
       }
 
-      create_graph_general_var(df_clean_final(), media11(), mediaPro(), input$grupo_referencia, prueba = sal)
+        create_graph_general_var(df_clean_final(), media11(), mediaPro(), input$grupo_referencia, prueba = sal)
 
     })
 
