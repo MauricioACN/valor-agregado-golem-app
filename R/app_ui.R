@@ -23,7 +23,13 @@ app_ui <- function(request) {
                     mod_name_of_module2_ui("name_of_module2_1")),
     shiny::tabPanel(title = 'Modelo',value = 'modelo'),
     shiny::tabPanel(title = 'Comparador',value = 'compara',
-                    mod_comparador_ui("comparador_1")
+                    h3("Comparador de Resultados"),
+                    fluidRow(
+                      column(12,
+                             fluidRow(
+                               column(6,mod_comparador_ui("comparador_1")),
+                               column(6,mod_comparador_ui("comparador_2"))))
+                      )
                     )
   )
   )

@@ -15,20 +15,10 @@ mod_comparador_ui <- function(id){
   ns <- NS(id)
   tagList(
 
-    h3("Comparador de Resultados"),
-
-    fluidRow(
-      column(12,
-             fluidRow(
-               column(6,uiOutput(ns('myCard')),
-                      uiOutput(ns('grafico1'))
-               ),
-               column(width = 6,uiOutput(ns('myCard4'))
-                      )
-             )
-      )
-    )
-
+     fluidRow(
+       column(12,uiOutput(ns('myCard')),
+              uiOutput(ns('grafico1'))
+       ))
   )
 }
 
