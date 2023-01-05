@@ -13,34 +13,39 @@
 mod_name_of_module2_ui <- function(id){
   ns <- NS(id)
   tagList(
-    shiny::sidebarLayout(
-    shiny::sidebarPanel(
-      shiny::sliderInput(inputId = ns('muestra'),
-                         label = 'Seleccione la muestra que desea visualizar:',
+    fluidRow(
+      column(12,
+             fluidRow(
+               column(4,
+                      shiny::sliderInput(inputId = ns('muestra'),
+                         label = 'Muestra:',
                          min = 1000,
                          max = nrow(resultados),
-                         value = nrow(resultados)),
-    shiny::selectInput(inputId = ns("programa"),
-                       label = "Seleccione el grupo de referencia que desea visualizar:",
-                       choices = resultados %>% distinct(!!sym("GRUPOREFERENCIA")) %>% pull()),
-    shiny::selectizeInput(inputId = ns("periodo"),
-                label = "Seleccione los periodos a visualizar:",
-                choices = mediasSaber11 %>% distinct(!!sym("periodoAux")) %>% pull(),
-                multiple = T,
-                selected = c(1,2)),
-    actionLink(ns('help_periodos'),
-                 icon = icon('circle-info'),
-                 label = 'Ayuda'
-                 ),
-    br()
-    ),
-    shiny::mainPanel(
-      shiny::HTML(txt_info_m2_p1),
-      br(),
-      plotOutput(ns('grafico_general')),
-      br(),
-      shiny::HTML(txt_info_m2_p2))
-  )
+                         value = nrow(resultados))
+                      ),
+               column(4,
+                      shiny::selectInput(inputId = ns("programa"),
+                                         label = "Grupo Referencia:",
+                                         choices = resultados %>% distinct(!!sym("GRUPOREFERENCIA")) %>% pull())
+                      ),
+               column(4,
+                      shiny::selectizeInput(inputId = ns("periodo"),
+                                            label = "Periodos:",
+                                            choices = mediasSaber11 %>% distinct(!!sym("periodoAux")) %>% pull(),
+                                            multiple = T,
+                                            selected = mediasSaber11$periodoAux)
+                      )
+               ),
+      fluidRow(
+        column(12,
+               shiny::HTML(txt_info_m2_p1),
+               shiny::HTML(txt_info_m2_p2),
+               br(),
+               plotOutput(ns('grafico_general')),
+               )
+        )
+      )
+      )
   )
 }
 

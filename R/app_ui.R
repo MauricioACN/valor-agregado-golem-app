@@ -15,12 +15,22 @@ app_ui <- function(request) {
                       id = 'navbar',collapsible = TRUE,
                       theme = bs_theme(
                         version = 5,
-                        bootswatch = 'readable'),
+                        bootswatch = 'litera'
+                        ),
 
     shiny::tabPanel(title = 'Inicio',value = 'inicio'),
     shiny::tabPanel(title = 'Grupo Referencia',value = 'grupo_ref',
                     mod_name_of_module2_ui("name_of_module2_1")),
     shiny::tabPanel(title = 'Modelo',value = 'modelo'),
+    shiny::tabPanel(title = 'Comparador',value = 'compara',
+                    h3("Comparador de Resultados"),
+                    fluidRow(
+                      column(12,
+                             fluidRow(
+                               column(6,mod_comparador_ui("comparador_1")),
+                               column(6,mod_comparador_ui("comparador_2"))))
+                      )
+                    )
   )
   )
   )

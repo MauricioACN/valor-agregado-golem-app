@@ -50,6 +50,9 @@ usethis::use_package('ggplot2')
 usethis::use_package('gridExtra')
 usethis::use_package('thematic')
 usethis::use_package('shinyWidgets')
+usethis::use_package('stringr')
+usethis::use_package('htmltools')
+usethis::use_package('rsconnect')
 usethis::use_pipe()
 
 ## Init Testing Infrastructure ----

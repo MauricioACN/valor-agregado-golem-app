@@ -11,10 +11,13 @@ Imports:
     ggplot2,
     golem (>= 0.3.5),
     gridExtra,
+    htmltools,
     magrittr,
     rlang,
+    rsconnect,
     shiny (>= 1.7.3),
     shinyWidgets,
+    stringr,
     thematic
 Suggests: 
     spelling,

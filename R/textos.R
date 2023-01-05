@@ -26,7 +26,7 @@ txt_info_m2_p2 <- '
 
 txt_info_periodos <- '
 
-                              <b> Periodo 1:</b> puntajes de los estudiantes que presentaron el exmane Saber 11 antes del 2014-2.
+                              <b> Periodo 1:</b> puntajes de los estudiantes que presentaron el examen Saber 11 antes del 2014-2.
                               <br></br>
                               <b>Periodo 2:</b> puntajes de los estudiantes que presentaron el examen Saber 11 después del 2014-2.
                               <br></br>
