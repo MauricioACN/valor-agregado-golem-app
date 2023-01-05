@@ -7,6 +7,8 @@ Description: PKG_DESC.
 License: MIT + file LICENSE
 Imports: 
     bslib,
+    dplyr,
+    tidyr,
     config (>= 0.3.1),
     ggplot2,
     golem (>= 0.3.5),
