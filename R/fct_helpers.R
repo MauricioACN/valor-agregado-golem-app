@@ -12,6 +12,7 @@
 #' @importFrom rlang sym
 #' @importFrom thematic thematic_on
 #' @importFrom stringr str_to_title
+#' @importFrom stats na.omit
 
 # thematic::thematic_on(bg="auto",fg="auto",accent = "auto", font = "auto")
 

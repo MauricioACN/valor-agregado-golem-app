@@ -16,11 +16,10 @@ Imports:
     htmltools,
     magrittr,
     rlang,
-    rsconnect,
     shiny (>= 1.7.3),
     shinyWidgets,
     stringr,
-    thematic
+    thematic,
 Suggests: 
     spelling,
     testthat (>= 3.0.0)

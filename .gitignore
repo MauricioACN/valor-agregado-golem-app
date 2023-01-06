@@ -1,9 +1,11 @@
 
+_disable_autoload.R
+
 #macos files
 .DS_Store
 
 #Data folders
-Data/
+data/
 
 # History files
 .Rhistory

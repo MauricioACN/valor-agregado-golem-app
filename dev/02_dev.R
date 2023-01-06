@@ -40,7 +40,9 @@ golem::add_sass_file("custom")
 
 ## Add internal datasets ----
 ## If you have data in your package
-usethis::use_data_raw(name = "my_dataset", open = FALSE)
+usethis::use_data_raw(name = "mediasSaberPro", open = FALSE)
+usethis::use_data_raw(name = "mediasSaber11", open = FALSE)
+usethis::use_data_raw(name = "resultados", open = FALSE)
 
 ## Tests ----
 ## Add one line by test you want to create
