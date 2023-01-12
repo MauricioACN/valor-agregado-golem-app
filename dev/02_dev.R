@@ -23,6 +23,7 @@ attachment::att_amend_desc()
 golem::add_module(name = "name_of_module1", with_test = TRUE) # Name of the module
 golem::add_module(name = "name_of_module2", with_test = TRUE) # Name of the module
 golem::add_module(name = "comparador", with_test = TRUE) # Name of the module
+golem::add_module(name = "descriptivo", with_test = TRUE) # Name of the module
 
 #functions to
 

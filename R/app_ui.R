@@ -18,12 +18,12 @@ app_ui <- function(request) {
                         bootswatch = 'litera'
                         ),
 
-    # shiny::tabPanel(title = 'Inicio',value = 'inicio'),
-    # shiny::tabPanel(title = 'Grupo Referencia',value = 'grupo_ref'
-    #                 # ,
-    #                 # mod_name_of_module2_ui("name_of_module2_1")
-    #                 ),
-    # shiny::tabPanel(title = 'Modelo',value = 'modelo'),
+    shiny::tabPanel(title = 'Introducción',value = 'inicio',
+                    h1('Aqui va la introduccion')),
+    shiny::tabPanel(title = 'Descriptivo',value = 'grupo_ref',
+                    mod_descriptivo_ui("descriptivo_1")
+                    ),
+    shiny::tabPanel(title = 'Modelo',value = 'modelo'),
     shiny::tabPanel(title = 'Comparador',value = 'compara',
                     h3("Comparador de Resultados"),
                     fluidRow(
