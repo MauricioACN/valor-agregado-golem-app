@@ -29,10 +29,6 @@ mod_comparador_server <- function(id,datos,saberPro,saber11){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
-    # datos_clean <- reactive({
-    #   clean_resultados(datos, grupo = input$grupo_referencia)
-    # })
-
     datos_clean_1 <- reactive({
 
       clean_resultados(datos, grupo = input$grupo_referencia)
@@ -72,7 +68,7 @@ mod_comparador_server <- function(id,datos,saberPro,saber11){
                                   size = 3,selectize=F)),
                        column(4,
                               shiny::selectInput(inputId = ns('periodo'),
-                                         label = 'Periodo:',
+                                         label = 'Periodo Prueba Saber 11:',
                                          choices = mediasSaber11 %>% distinct(!!sym("periodoAux")) %>% pull(),
                                   selected = mediasSaber11$periodoAux,
                                   size = 3,selectize=F,multiple = T)
@@ -82,30 +78,10 @@ mod_comparador_server <- function(id,datos,saberPro,saber11){
                  column(6,style = "text-align: center;",
                         shiny::selectInput(inputId = ns('incluir_universidad_programa'),
                                            label = 'Filtrar Por:',
-                                           choices = c('Universidad','Programa','Ambas'),
-                                           selected = 'Ambas',selectize = F,size = 3)),
+                                           choices = c('Universidad','Programa','Sin Filtro'),
+                                           selected = 'Sin Filtro',selectize = F,size = 3)),
                  column(6,style = "text-align: center;",shiny::uiOutput(ns('output_universidad_programa'))
-                 # column(6,style = "text-align: center;",
-                 #        shiny::checkboxInput(inputId = ns('incluir_universidad'),
-                 #                               label = "Inluir Universidad",
-                 #                               value = F)
-                 #        ),
-                 # column(6,style = "text-align: center;",
-                 #        shiny::checkboxInput(inputId = ns('incluir_programa'),
-                 #                               label = "Incluir Programa",
-                 #                               value = F))
                ),
-      # fluidRow(
-      #
-      #   column(12,style = "text-align: center;",shiny::uiOutput(ns('output_universidad_programa'))
-      #
-      #          # fluidRow(
-      #          #   column(6,style = "text-align: center;",
-      #          #          shiny::uiOutput(ns('output_universidad'))),
-      #          #   column(6,style = "text-align: center;",
-      #          #          shiny::uiOutput(ns('output_programa')))
-      #          # )
-      #          )
       )
            ),
       card_footer("Para seleccionar más de un elemento, mantener presionado Ctrl.")
@@ -115,7 +91,7 @@ mod_comparador_server <- function(id,datos,saberPro,saber11){
 
     output$output_universidad_programa <- renderUI({
 
-      if(input$incluir_universidad_programa=='Ambas'){
+      if(input$incluir_universidad_programa=='Sin Filtro'){
 
         return()
 

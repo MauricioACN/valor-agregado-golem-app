@@ -9,6 +9,7 @@
 #' @importFrom shiny NS tagList
 #' @import dplyr
 #' @import ggplot2
+#' @importFrom DT DTOutput renderDataTable
 mod_descriptivo_ui <- function(id){
   ns <- NS(id)
   tagList(
@@ -139,11 +140,25 @@ mod_descriptivo_server <- function(id,datos){
           card_body_fill(
             plotOutput(ns('plot_modalidad')),
           )
+        ),
+        nav(
+          card_header("Tablas",class = 'bg-dark'),
+          card_body_fill(
+            DTOutput(ns('plot_tablas')),
+          )
         )
       )
 
   })
 
+  output$plot_tablas <- DT::renderDataTable({
+
+    DT::datatable(medias_nal,
+                  class="cell-border stripe",
+                  rownames = FALSE,
+                  options = list(dom = 't'))
+
+  })
 
   output$plot_genero <- renderPlot({
 
