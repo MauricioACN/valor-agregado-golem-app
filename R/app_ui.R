@@ -15,8 +15,8 @@ app_ui <- function(request) {
                       id = 'navbar',collapsible = TRUE,
                       theme = bs_theme(
                         version = 5,
-                        bootswatch = 'litera'
-                        ),
+                        bootswatch = 'sketchy'
+                      ),
 
     shiny::tabPanel(title = 'Introducción',value = 'inicio',
                     h1('Aqui va la introduccion')),

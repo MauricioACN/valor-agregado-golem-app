@@ -40,6 +40,8 @@ mod_descriptivo_server <- function(id,datos){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
+    thematic::thematic_shiny()
+
     output$grafico1 <- renderUI({
 
       card(full_screen = TRUE,height = 1200,

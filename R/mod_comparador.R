@@ -148,14 +148,34 @@ mod_comparador_server <- function(id,datos,saberPro,saber11){
 
            card_footer(
 
-             if (length(input$grupo_referencia)>1){
-               paste("Grupo de referencia ", 'Varios', " - ", input$prueba)
-             }
-             else{
-               paste("Grupo de referencia ", input$grupo_referencia, " - ", input$prueba)
-             }
+             shiny::textOutput(ns('text_footer'))
+
            )
       )
+
+    })
+
+    output$text_footer <- shiny::renderText({
+
+      if (input$incluir_universidad_programa == 'Universidad'){
+
+        universidades = paste(input$filtro_universidad,collapse = ", ")
+
+        texto2 <- paste(ifelse(length(input$filtro_universidad)>1," // Universidades: "," // Universidad: "), universidades)
+      }
+      else if (input$incluir_universidad_programa == 'Programa'){
+
+        programas = paste(input$filtro_programa,collapse = ", ")
+
+        texto2 <- paste(ifelse(length(input$filtro_programa)>1," // Programas: "," // Programa: "), programas)
+      }
+      else{
+        texto2 <- ""
+      }
+
+      texto1 <- paste("Grupo de referencia: ", input$grupo_referencia, " - ", input$prueba)
+
+      paste(texto1,texto2)
 
     })
 
