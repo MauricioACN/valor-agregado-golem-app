@@ -15,7 +15,11 @@ app_ui <- function(request) {
                       id = 'navbar',collapsible = TRUE,
                       theme = bs_theme(
                         version = 5,
-                        bootswatch = 'sketchy'
+                        bootswatch = 'sketchy',
+                        base_font = font_google("Oxanium"
+                                                # , local = TRUE
+                                                )
+
                       ),
 
     shiny::tabPanel(title = 'Introducción',value = 'inicio',

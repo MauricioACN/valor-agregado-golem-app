@@ -40,14 +40,12 @@ mod_descriptivo_server <- function(id,datos){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
-    thematic::thematic_shiny()
-
     output$grafico1 <- renderUI({
 
       card(full_screen = TRUE,height = 1200,
            card_header(
              class = "bg-dark",
-             paste("Esto es un titulo")
+             paste("Estudiantes en cada grupo de referencia")
            ),
            plotOutput(ns('plot_grupo_ref'),height = '1000px'),
 
@@ -60,28 +58,10 @@ mod_descriptivo_server <- function(id,datos){
 
     output$plot_grupo_ref <- renderPlot({
 
-      nivel <- datos %>% group_by(GRUPOREFERENCIA) %>% summarise(n = n()) %>% arrange(n) %>% mutate(GRUPOREFERENCIA = factor(GRUPOREFERENCIA, GRUPOREFERENCIA))
-      colnames(nivel) <- c("grupoReferencia", "Estudiantes")
-      nivel <- na.omit(nivel)
-      total <- sum(nivel$Estudiantes)
-      nivel <- nivel %>% mutate(porcentaje = Estudiantes / total *100)
+      nivel <- summary_plot(datos,'grupoReferencia')
 
-      g_grupoReferencia <- ggplot(nivel, aes(x = grupoReferencia, y = Estudiantes)) +
-        geom_bar(stat = "identity", fill="#87CEEB") +
-        coord_flip() +
-        theme(axis.text.y = element_text(face="bold", size=8, angle=0),
-              panel.background = element_rect(fill = "#FAFAFA"),
-              axis.text.x = element_blank(),
-              axis.ticks.x = element_blank(),
-              axis.title.x = element_blank(),
-              axis.title.y = element_blank(),
-              plot.title = element_text(size = 15, face = "bold")) +
-        geom_text(aes(label = paste(Estudiantes, "(",round(porcentaje,1), "%",")", sep = "")), hjust = -0.1, size = 3) +
-        labs(title = "Estudiantes en cada grupo de referencia") +
-        scale_y_continuous(limit = c(0,1.3*max(nivel$Estudiantes)))
-      rm(nivel, total)
+      grafico_bar_hor(nivel,'grupoReferencia')
 
-      g_grupoReferencia
 
     })
 
@@ -113,7 +93,8 @@ mod_descriptivo_server <- function(id,datos){
           axis.text.x = element_text(face="bold", size=10, angle=0),
           panel.background = element_rect(fill = "#FAFAFA"),
           plot.title = element_text(size = 10, face = "bold")) +
-        labs(title = "Índice de nivel socioeconómico (INSE)",
+        labs(
+          # title = "Índice de nivel socioeconómico (INSE)",
              x = "INSE",
              y = "Estudiantes")
 
@@ -141,7 +122,13 @@ mod_descriptivo_server <- function(id,datos){
           )
         ),
         nav(
-          card_header("Tablas",class = 'bg-dark'),
+          card_header("Semestre",class = 'bg-dark'),
+          card_body_fill(
+            plotOutput(ns('plot_semestre')),
+          )
+        ),
+        nav(
+          card_header("Promedio Nacional",class = 'bg-dark'),
           card_body_fill(
             DTOutput(ns('plot_tablas')),
           )
@@ -159,83 +146,36 @@ mod_descriptivo_server <- function(id,datos){
 
   })
 
+  output$plot_semestre <- renderPlot({
+
+    nivel <- summary_plot(datos,"Semestre")
+
+    grafico_bar_hor(nivel, "Semestre")
+
+  })
+
+
   output$plot_genero <- renderPlot({
 
-    nivel <- datos %>% group_by(ESTU_GENERO) %>% summarise(n())
-    colnames(nivel) <- c("Genero", "Estudiantes")
-    nivel <- na.omit(nivel)
-    total <- sum(nivel$Estudiantes)
-    nivel <- nivel %>% mutate(porcentaje = Estudiantes / total *100) %>%
-      mutate(Genero = paste("Género", Genero))
+    nivel <- summary_plot(datos,"Genero")
 
-    g_genero <- ggplot(nivel, aes(x = Genero, y = porcentaje)) +
-      geom_bar(stat = "identity", fill="#87CEEB") +
-      coord_flip() +
-      theme(axis.text.y = element_text(face="bold", size=10, angle=0),
-            panel.background = element_rect(fill = "#FAFAFA"),
-            axis.text.x = element_blank(),
-            axis.ticks.x = element_blank(),
-            axis.title.x = element_blank(),
-            axis.title.y = element_blank(),
-            plot.title = element_text(size = 10, face = "bold")) +
-      geom_text(aes(label = paste(round(porcentaje,1), "%")), hjust = -0.1) +
-      labs(title = "Género") +
-      scale_y_continuous(limit = c(0,1.2*max(nivel$porcentaje)))
-
-    g_genero
+    grafico_bar_hor(nivel, "Genero")
 
   })
 
   output$plot_resi <- renderPlot({
 
-    nivel <- datos %>% group_by(ESTU_AREARESIDE) %>% summarise(n())
-    colnames(nivel) <- c("areaResidencia", "Estudiantes")
-    nivel <- na.omit(nivel)
-    total <- sum(nivel$Estudiantes)
-    nivel <- nivel %>% mutate(porcentaje = Estudiantes / total *100)
+    nivel <- summary_plot(datos,"areaResidencia")
 
-    g_areaResidencia <- ggplot(nivel, aes(x = areaResidencia, y = porcentaje)) +
-      geom_bar(stat = "identity", fill="#87CEEB") +
-      coord_flip() +
-      theme(axis.text.y = element_text(face="bold", size=10, angle=0),
-            panel.background = element_rect(fill = "#FAFAFA"),
-            axis.text.x = element_blank(),
-            axis.ticks.x = element_blank(),
-            axis.title.x = element_blank(),
-            axis.title.y = element_blank(),
-            plot.title = element_text(size = 10, face = "bold")) +
-      geom_text(aes(label = paste(round(porcentaje,1), "%")), hjust = 0) +
-      labs(title = "Área de residencia") +
-      scale_y_continuous(limit = c(0,1.3*max(nivel$porcentaje)))
-
-    g_areaResidencia
+    grafico_bar_hor(nivel, "areaResidencia")
 
   })
 
   output$plot_modalidad <- renderPlot({
 
-    nivel <- datos %>% group_by(ESTU_METODO_PRGM) %>% summarise(n())
-    colnames(nivel) <- c("modalidad", "Estudiantes")
-    nivel <- na.omit(nivel)
-    total <- sum(nivel$Estudiantes)
-    nivel <- nivel %>% mutate(porcentaje = Estudiantes / total *100)
+    nivel <- summary_plot(datos,"modalidad")
 
-    g_modalidad <- ggplot(nivel, aes(x = modalidad, y = porcentaje)) +
-      geom_bar(stat = "identity", fill="#87CEEB") +
-      coord_flip() +
-      theme(axis.text.y = element_text(face="bold", size=10, angle=0),
-            panel.background = element_rect(fill = "#FAFAFA"),
-            axis.text.x = element_blank(),
-            axis.ticks.x = element_blank(),
-            axis.title.x = element_blank(),
-            axis.title.y = element_blank(),
-            plot.title = element_text(size = 10, face = "bold")) +
-      geom_text(aes(label = paste(round(porcentaje,1), "%")), hjust = -0.1) +
-      labs(title = "Modalidad",
-           caption = "P: Presencial, DV: Distancia virtual, D: Distancia") +
-      scale_y_continuous(limit = c(0,1.3*max(nivel$porcentaje)))
-
-    g_modalidad
+    grafico_bar_hor(nivel, "modalidad")
 
   })
 

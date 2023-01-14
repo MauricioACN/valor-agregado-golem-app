@@ -5,16 +5,80 @@
 #' @return The return value, if any, from executing the function.
 #'
 #' @noRd
-#' @importFrom dplyr mutate filter select group_by summarise n
+#' @importFrom dplyr mutate filter select group_by summarise n arrange
 #' @importFrom tidyr all_of
 #' @import ggplot2
-#' @import gridExtra
 #' @importFrom rlang sym
 #' @importFrom thematic thematic_on
 #' @importFrom stringr str_to_title
 #' @importFrom stats na.omit
+#' @importFrom ggplot2 ggplot aes coord_flip theme element_text geom_text scale_y_continuous
 
-# thematic::thematic_on(bg="auto",fg="auto",accent = "auto", font = "auto")
+thematic::thematic_on(bg="auto",fg="auto",accent = "auto", font = "auto")
+
+grafico_bar_hor <- function(nivel,variable_x){
+
+  theme_set(theme_bw())
+
+  ggplot(nivel, aes_string(x = variable_x, y = "porcentaje")) +
+    geom_bar(stat = "identity",
+             fill="#87CEEB"
+    ) +
+    coord_flip() +
+    theme(axis.text.y = element_text(face="bold", size=10, angle=0),
+          panel.background = element_rect(fill = "#FAFAFA"),
+          axis.text.x = element_blank(),
+          axis.ticks.x = element_blank(),
+          axis.title.x = element_blank(),
+          axis.title.y = element_blank(),
+          plot.title = element_text(size = 10, face = "bold")
+    ) +
+    geom_text(aes(label = paste(round(porcentaje,1), "%")), hjust = -0.1) +
+    # labs(title = "Modalidad",
+    #      caption = "P: Presencial, DV: Distancia virtual, D: Distancia") +
+    scale_y_continuous(limit = c(0,1.3*max(nivel$porcentaje)))
+}
+
+summary_plot <- function(datos, name_variable){
+
+  if (name_variable=="Genero"){
+
+    nivel <- datos %>% group_by(ESTU_GENERO) %>% summarise(n())
+  }
+  else if (name_variable=="areaResidencia"){
+
+    nivel <- datos %>% group_by(ESTU_AREARESIDE) %>% summarise(n())
+  }
+  else if (name_variable=="modalidad"){
+
+    nivel <- datos %>% group_by(ESTU_METODO_PRGM) %>% summarise(n())
+  }
+  else if (name_variable=="grupoReferencia"){
+
+    nivel <- datos %>%
+      group_by(GRUPOREFERENCIA) %>%
+      summarise(conteo = n()) %>%
+      arrange(conteo) %>%
+      mutate(GRUPOREFERENCIA = factor(GRUPOREFERENCIA, GRUPOREFERENCIA))
+  }
+  else if (name_variable=="Semestre"){
+
+    nivel <- datos %>% group_by(ESTU_SEMESTRECURSA) %>% summarise(n())
+  }
+
+  colnames(nivel) <- c(name_variable, "Estudiantes")
+  nivel <- na.omit(nivel)
+  total <- sum(nivel$Estudiantes)
+  nivel <- nivel %>% mutate(porcentaje = Estudiantes / total *100)
+
+  if (name_variable=='Genero'){
+    nivel <- nivel %>% mutate(Genero = paste("Género", Genero))
+  }
+
+  nivel
+
+}
+
 
 clean_resultados <- function(data, n_sample=NA, grupo=NA){
 
@@ -267,19 +331,19 @@ create_graph_general_var <- function(datos, mediasSaber11, mediasSaberPro, grupo
 
 }
 
-create_grs <- function(resultados, mediasSaber11,mediasSaberPro, grupo){
-
-  g1 <- create_graph_general(resultados, mediasSaber11, mediasSaberPro, grupo, prueba = 'MOD_LECTURA_CRITICA_PUNT')
-  g2 <- create_graph_general(resultados, mediasSaber11, mediasSaberPro, grupo, prueba = 'MOD_RAZONA_CUANTITAT_PUNT')
-  g3 <- create_graph_general(resultados, mediasSaber11, mediasSaberPro, grupo, prueba = 'MOD_INGLES_PUNT')
-  g4 <- create_graph_general(resultados, mediasSaber11, mediasSaberPro, grupo, prueba = 'PUNT_GLOBAL.x')
-  grid.arrange(g1, g2, g3, g4,
-               widths = c(2, 2, 2),
-               heights = c(1.8,1, 0.4),
-               layout_matrix = rbind(c(4, 4, NA),
-                                     c(1, 2, 3),
-                                     c(NA, NA, NA)))
-}
+# create_grs <- function(resultados, mediasSaber11,mediasSaberPro, grupo){
+#
+#   g1 <- create_graph_general(resultados, mediasSaber11, mediasSaberPro, grupo, prueba = 'MOD_LECTURA_CRITICA_PUNT')
+#   g2 <- create_graph_general(resultados, mediasSaber11, mediasSaberPro, grupo, prueba = 'MOD_RAZONA_CUANTITAT_PUNT')
+#   g3 <- create_graph_general(resultados, mediasSaber11, mediasSaberPro, grupo, prueba = 'MOD_INGLES_PUNT')
+#   g4 <- create_graph_general(resultados, mediasSaber11, mediasSaberPro, grupo, prueba = 'PUNT_GLOBAL.x')
+#   grid.arrange(g1, g2, g3, g4,
+#                widths = c(2, 2, 2),
+#                heights = c(1.8,1, 0.4),
+#                layout_matrix = rbind(c(4, 4, NA),
+#                                      c(1, 2, 3),
+#                                      c(NA, NA, NA)))
+# }
 
 
 
