@@ -20,6 +20,7 @@ Imports:
     shinyWidgets,
     stringr,
     thematic,
+    DT
 Suggests: 
     spelling,
     testthat (>= 3.0.0)
