@@ -10,6 +10,7 @@
 #' @import bslib
 #' @import htmltools
 #' @import shinyWidgets
+#' @importFrom shinyalert shinyalert
 
 mod_comparador_ui <- function(id){
   ns <- NS(id)
@@ -54,21 +55,38 @@ mod_comparador_server <- function(id,datos,saberPro,saber11){
            ),
            card_body(border_radius = 'all',
 
+
                      fluidRow(
                        column(4,
                               shiny::selectInput(inputId = ns('grupo_referencia'),
-                                  label = 'Grupo de Referencia:',
+                                  label = HTML('Grupo de Referencia:',
+                                               as.character(actionLink(ns('info_gr'),
+                                                                       label = 'Ayuda'
+                                                                       )
+                                                            )
+                                               ),
                                   choices = resultados %>% distinct(!!sym("GRUPOREFERENCIA")) %>% pull(),
                                   size = 3,selectize=F,multiple = F,selected = resultados$GRUPOREFERENCIA[1])
+
                               ),
                        column(4,
                               shiny::selectInput(inputId = ns('prueba'),
-                                  label = 'Prueba:',
+                                  label = HTML('Prueba:',
+                                                        as.character(actionLink(ns('info_prueba'),
+                                                                                label = 'Ayuda'
+                                                        )
+                                                        )
+                                  ),
                                   choices = c('Puntaje Global','Razonamiento Cuantitativo','Inglés','Lectura Crítica'),
                                   size = 3,selectize=F)),
                        column(4,
                               shiny::selectInput(inputId = ns('periodo'),
-                                         label = 'Periodo Prueba Saber 11:',
+                                         label = HTML('Periodo Prueba Saber 11:',
+                                                                                as.character(actionLink(ns('info_periodo'),
+                                                                                                        label = 'Ayuda'
+                                                                                )
+                                                                                )
+                                         ),
                                          choices = mediasSaber11 %>% distinct(!!sym("periodoAux")) %>% pull(),
                                   selected = mediasSaber11$periodoAux,
                                   size = 3,selectize=F,multiple = T)
@@ -77,7 +95,12 @@ mod_comparador_server <- function(id,datos,saberPro,saber11){
                fluidRow(
                  column(6,style = "text-align: center;",
                         shiny::selectInput(inputId = ns('incluir_universidad_programa'),
-                                           label = 'Filtrar Por:',
+                                           label = HTML('Filtrar Por:',
+                                                                      as.character(actionLink(ns('info_filtro'),
+                                                                                              label = 'Ayuda'
+                                                                      )
+                                                                      )
+                                           ),
                                            choices = c('Universidad','Programa','Sin Filtro'),
                                            selected = 'Sin Filtro',selectize = F,size = 3)),
                  column(6,style = "text-align: center;",shiny::uiOutput(ns('output_universidad_programa'))
@@ -88,6 +111,27 @@ mod_comparador_server <- function(id,datos,saberPro,saber11){
       )
 
     })
+
+    observeEvent(input$info_gr, {
+      # Show a modal when the button is pressed
+      shinyalert("Grupo de Referencia", "Información sobre el grupo de referencia.", type = "info")
+    })
+
+    observeEvent(input$info_periodo, {
+      # Show a modal when the button is pressed
+      shinyalert("Periodo Prueba Saber 11", "Información sobre el Periodo Prueba Saber 11", type = "info")
+    })
+
+    observeEvent(input$info_filtro, {
+      # Show a modal when the button is pressed
+      shinyalert("Filtrar Por", "Información sobre el filtro", type = "info")
+    })
+
+    observeEvent(input$info_prueba, {
+      # Show a modal when the button is pressed
+      shinyalert("Prueba", "Información sobre la Prueba", type = "info")
+    })
+
 
     output$output_universidad_programa <- renderUI({
 

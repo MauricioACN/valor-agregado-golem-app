@@ -54,6 +54,7 @@ usethis::use_package('stringr')
 usethis::use_package('htmltools')
 usethis::use_package('rsconnect')
 usethis::use_package('DT')
+usethis::use_package('shinyalert')
 usethis::use_pipe()
 
 ## Init Testing Infrastructure ----
