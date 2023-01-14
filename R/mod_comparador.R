@@ -98,25 +98,28 @@ mod_comparador_server <- function(id,datos,saberPro,saber11){
       }
       else if(input$incluir_universidad_programa=="Universidad"){
 
-        selectInput(inputId = ns("filtro_universidad"),
+        selectizeInput(inputId = ns("filtro_universidad"),
                     label = "Universidad:",
                     choices = datos_clean_1() %>% distinct(!!sym("INST_NOMBRE_INSTITUCION")) %>% pull(),
                     selected = datos_clean_1()$INST_NOMBRE_INSTITUCION[1],
                     multiple = T,
-                    size = 3,
-                    selectize=F)
+                    options = list(maxOptions = 3)
+                    # selectize=F
+                    )
 
       }
 
       else if(input$incluir_universidad_programa=="Programa"){
 
-        selectInput(inputId = ns("filtro_programa"),
+        selectizeInput(inputId = ns("filtro_programa"),
                     label = "Programa:",
                     choices = datos_clean_1() %>% distinct(!!sym("ESTU_PRGM_ACADEMICO")) %>% pull(),
                     selected = datos_clean_1()$ESTU_PRGM_ACADEMICO[1],
                     multiple = T,
-                    selectize = F,
-                    size =  3)
+                    # selectize = F,
+                    options = list(maxOptions =  3)
+                    )
+
       }
 
     })
@@ -125,10 +128,16 @@ mod_comparador_server <- function(id,datos,saberPro,saber11){
     df_clean_final <- reactive({
 
       if(input$incluir_universidad_programa=="Universidad"){
-        datos_clean_1() %>% dplyr::filter(!!sym("INST_NOMBRE_INSTITUCION")==input$filtro_universidad)
+        req(input$filtro_universidad)
+        datos_clean_1() %>% dplyr::filter(!!sym("INST_NOMBRE_INSTITUCION") %in% input$filtro_universidad)
+
       }
       else if(input$incluir_universidad_programa=="Programa"){
-        datos_clean_1() %>% dplyr::filter(!!sym("ESTU_PRGM_ACADEMICO")==input$filtro_programa)
+
+        req(input$filtro_programa)
+
+        datos_clean_1() %>% dplyr::filter(!!sym("ESTU_PRGM_ACADEMICO") %in% input$filtro_programa)
+
       }
       else{
         datos_clean_1()
