@@ -106,11 +106,8 @@ mod_descriptivo_server <- function(id,datos){
 
       g_inse <- ggplot(nivel, aes(x = inse_imputado)) +
         geom_histogram(bins = 30, col = "white", fill = "#87CEEB") +
-        theme(#axis.title.y=element_blank(),
+        theme(
           axis.text.y = element_text(face="bold", size=10, angle=0),
-          #axis.text.y=element_blank(),
-          #axis.ticks.y=element_blank(),
-          #axis.title.x=element_blank(),
           axis.text.x = element_text(face="bold", size=10, angle=0),
           panel.background = element_rect(fill = "#FAFAFA"),
           plot.title = element_text(size = 10, face = "bold")) +
