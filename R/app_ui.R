@@ -28,7 +28,9 @@ app_ui <- function(request) {
     shiny::tabPanel(title = 'Descriptivo',value = 'grupo_ref',
                     mod_descriptivo_ui("descriptivo_1")
                     ),
-    shiny::tabPanel(title = 'Modelo',value = 'modelo'),
+    shiny::tabPanel(title = 'Modelo',value = 'modelo',
+                    mod_modelo_ui("modelo_1")
+                    ),
     shiny::tabPanel(title = 'Comparador',value = 'compara',
                     h3("Comparador de Resultados"),
                     fluidRow(

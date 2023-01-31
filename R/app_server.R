@@ -18,4 +18,7 @@ app_server <- function(input, output, session) {
   #estadistica descriptiva
   mod_descriptivo_server("descriptivo_1", datos = resultados)
 
+  #modelo
+  mod_modelo_server("modelo_1")
+
 }
