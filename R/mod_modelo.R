@@ -46,18 +46,18 @@ mod_modelo_server <- function(id){
 
       list(
 
-        card(
+        card(height = 500,
 
           card_header(
             class = "bg-dark",
             paste("Filtros")),
 
-
+        card_body_fill(
           shiny::selectInput(inputId = ns('tipo_modelo'),
                              label = 'Modelo:',
-                             choices = c("Modelo 1","Modelo 2"),
+                             choices = c("Modelo lineal jerarquico","Propensity Score Matching"),
                              multiple = F,
-                             selected = "Modelo 2"),
+                             selected = "Propensity Score Matching"),
 
           shiny::selectizeInput(inputId = ns('universidad'),
                                 label = 'Universidad:',
@@ -70,7 +70,7 @@ mod_modelo_server <- function(id){
                                 label = 'Variable en Modelo:',
                                 choices = colnames(resultados_modelos)[1:7],
                                 multiple = F,
-                                selected = colnames(resultados_modelos)[1]),
+                                selected = colnames(resultados_modelos)[1])),
 
           card_footer(
             "Texto"
@@ -84,17 +84,35 @@ mod_modelo_server <- function(id){
     })
 
 
+    output$texto_modelos <- renderText({
+
+      req(input$tipo_modelo)
+
+      if (input$tipo_modelo == 'Modelo lineal jerarquico') {
+
+        detalle_modelo_1
+
+      }
+
+      else if (input$tipo_modelo == 'Propensity Score Matching'){
+
+        detalle_modelo_2
+
+      }
+
+    })
+
     output$texto_ayuda <- renderUI({
 
       list(
 
-        card(
+        card(full_screen = TRUE,height = 400,
 
           card_header(
             class = "bg-dark",
-            paste("Texto")),
+            paste("Explicación del Modelo")),
 
-
+            htmlOutput(ns("texto_modelos")),
 
           card_footer(
             "Texto"

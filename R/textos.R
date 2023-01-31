@@ -59,3 +59,19 @@ introduccion_app <- '
                           </p>
 
 '
+
+detalle_modelo_1 <- '
+
+
+
+'
+
+
+detalle_modelo_2 <- '
+
+        <p align="justify">En este modelo se intenta eliminar el sesgo de selección haciendo comparaciones en el valor agregado entre estudiantes comparables. </p>
+        <p align="justify">El procedimiento que se plantea implica que cada IES es un tratamiento. Los estudiantes que ingresan tienen unas condiciones previas de la prueba saber 11, el ingreso individual y familiar, el área de residencia (urbana o rural), acceso a internet, nivel de formación del padre,estado civil. Y además se asume que pueden existir diferencias entre los grupos de referencia de cada estudiante. </p>
+        <p align="justify">Para eliminar el sesgo de selección, cada estudiante del tratamiento (IES) se compara con una muestra aleatoria de diez mil estudiantes de otras IES. y se encuentran parejas o grupos de estudiantes muy  similares. Esa similitud se mide como la  probabilidad de seleccionar la universidad (tratamiento). Las probabilidades se calculan por medio de una regresión logística. Este proceso se conoce como emparejamiento.</p>
+        <p align="justify">Posteriormente en una regresión lineal en la que La variable dependiente es la **diferencia entre los puntajes estandarizados**. Alli se controla por las mismas variables del emparejamiento más una dummy de tratamiento sobre el grupo total (tratamiento + control) se toma el coeficiente de la variable tratamiento como el efecto promedio sobre los tratados (ATT por sus siglas en inglés)</p>
+
+'
