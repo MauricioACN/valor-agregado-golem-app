@@ -23,7 +23,8 @@ app_ui <- function(request) {
                       ),
 
     shiny::tabPanel(title = 'Introducción',value = 'inicio',
-                    h1('Aqui va la introduccion')),
+                    h1('Aqui va la introduccion'),
+                    HTML(introduccion_app)),
     shiny::tabPanel(title = 'Descriptivo',value = 'grupo_ref',
                     mod_descriptivo_ui("descriptivo_1")
                     ),

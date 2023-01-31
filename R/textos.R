@@ -34,3 +34,28 @@ txt_info_periodos <- '
 
 
 '
+
+help_grupo_referencia <- 'Son las áreas de estudio en las que el ICFES clasifica los programas académicos.'
+help_periodos <- 'Es el periodo de prueba saber 11 que se usará para promediar y hacer las comparaciones en los gráficos descriptivos. En 2014-2 hacia adelante, los promedios suelen ser más altos, debido a un cambio estructural en la prueba.'
+help_prueba <- 'Son las pruebas de competencias genéricas definidas por el ICFES.'
+
+
+introduccion_app <- '
+                          <p align="justify">
+                          La medición de la calidad de la educación superior en Colombia utilizando las pruebas estandarizadas del ICFES es una tarea que debe hacerse cuidadosamente. En primer lugar se debe reconocer que las pruebas no recogen la totalidad de la experiencia educativa y  además se debe tener en cuenta que para el caso colombiano las inequidades sociales, económicas y educativas deben ser tenidas en cuenta al momento de hacer mediciones comparativas entre Instituciones de Educación Superior (IES). Este trabajo auspiciado desde la Facultad de Ingeniería, Diseño e Innovación, la Escuela de Ciencias Básicas y el Centro de Investigación de datos Económicos y Sectoriales del politécnico grancolombiano, brinda una opción de evaluación cuantitativa desde una óptica descriptiva de los desempeños de los programas y las IES en las pruebas saber pro y dos modelos de medición de valor agregado como efecto de una IES sobre la prueba saber pro o, en un segundo enfoque, la diferencia en los puntajes globales de las dos pruebas. Los resultados se pueden consultar por IES y programa académico.
+                          </p>
+                          <p align="justify">
+                          El trabajo descriptivo se trata de la presentación gráfica de los resultados de la prueba saber pro 2020  contra saber 11.  El procedimiento implicó buscar, por medio de una llave provista por el ICFES, a todos los estudiantes del periodo 2020 en los repositorios de la prueba saber 11 entre 2010-1 y 2017-2.  Dado que la prueba saber 11 tuvo un cambio estructural a partir del periodo 2014-2 que hizo cambiar significativamente los resultados promedio de la prueba, es posible hacer las comparaciones según los resultados de uno y otro periodo.  Además del puntaje global, es posible visualizar los resultados en las pruebas de razonamiento cuantitativo, inglés y lectura crítica.
+                          </p>
+                          <p align="justify">
+                          En cuanto a los modelos de medición de valor agregado, se proponen dos: el primero es un método de regresión lineal jerárquico en el que la variabilidad de la prueba saber pro se descompone en dos fuentes: las instituciones y las personas. El uso de esta metodología implica el reconocimiento de una gran diversidad en las capacidades y recursos de las IES en Colombia así como diversidad de desempeños dentro de los estudiantes de una misma institución. Aislando la fuente de variabilidad de las personas dentro de una institución, queda la que corresponde a las IES. Y allí el valor agregado es una distancia entre el valor esperado para una IES y el resultado obtenido.
+                          </p>
+                          </p>
+                          <p align="justify">
+                          Un segundo modelo reconoce los problemas de sesgo de selección, debido a que los estudiantes escogen la universidad con base en sus restricciones sociales y económicas. Para esto plantea la búsqueda de un grupo de personas comparables para cada IES, para posteriormente encontrar a través de una regresión lineal, el efecto de la IES en el resultado del valor agregado medido como la diferencia entre las pruebas saber 11 y saber pro.
+                          </p>
+                          <p align="justify">
+                          Finalmente, este tablero incluye algunas estadísticas descriptivas que ayudan a dar una concepción global de la prueba saber pro.
+                          </p>
+
+'

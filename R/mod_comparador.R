@@ -114,12 +114,12 @@ mod_comparador_server <- function(id,datos,saberPro,saber11){
 
     observeEvent(input$info_gr, {
       # Show a modal when the button is pressed
-      shinyalert("Grupo de Referencia", "Información sobre el grupo de referencia.", type = "info")
+      shinyalert("Grupo de Referencia", help_grupo_referencia, type = "info")
     })
 
     observeEvent(input$info_periodo, {
       # Show a modal when the button is pressed
-      shinyalert("Periodo Prueba Saber 11", "Información sobre el Periodo Prueba Saber 11", type = "info")
+      shinyalert("Periodo Prueba Saber 11", help_periodos, type = "info")
     })
 
     observeEvent(input$info_filtro, {
@@ -129,7 +129,7 @@ mod_comparador_server <- function(id,datos,saberPro,saber11){
 
     observeEvent(input$info_prueba, {
       # Show a modal when the button is pressed
-      shinyalert("Prueba", "Información sobre la Prueba", type = "info")
+      shinyalert("Prueba", help_prueba, type = "info")
     })
 
 
