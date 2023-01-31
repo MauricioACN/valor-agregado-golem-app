@@ -13,7 +13,7 @@ mod_modelo_ui <- function(id){
 
     fluidRow(
 
-      column(4,
+      column(3,
 
              fluidRow(
 
@@ -26,7 +26,7 @@ mod_modelo_ui <- function(id){
 
              ),
 
-      column(8, uiOutput(ns("graficos")))
+      column(9, uiOutput(ns("graficos")))
 
     )
 
@@ -51,6 +51,13 @@ mod_modelo_server <- function(id){
           card_header(
             class = "bg-dark",
             paste("Filtros")),
+
+
+          shiny::selectInput(inputId = ns('tipo_modelo'),
+                             label = 'Modelo:',
+                             choices = c("Modelo 1","Modelo 2"),
+                             multiple = F,
+                             selected = "Modelo 2"),
 
           shiny::selectizeInput(inputId = ns('universidad'),
                                 label = 'Universidad:',
@@ -87,6 +94,8 @@ mod_modelo_server <- function(id){
             class = "bg-dark",
             paste("Texto")),
 
+
+
           card_footer(
             "Texto"
           )
@@ -100,6 +109,13 @@ mod_modelo_server <- function(id){
     })
 
 
+    output$grafico_att <- renderPlot({
+
+      ggplot(ATTdf,aes(x=reorder(cods_ies,-Estimate),y=Estimate))+ geom_col(fill="#87CEEB")+theme(axis.text.x = element_text(angle=90,vjust = 0.1,hjust=0.5,size=1))+labs(x="Código SNIES IES",y="Valor agreagado por PSM")
+
+    })
+
+
     output$graficos <- renderUI({
 
       list(
@@ -109,6 +125,8 @@ mod_modelo_server <- function(id){
           card_header(
             class = "bg-dark",
             paste("Modelado")),
+
+          plotOutput(ns("grafico_att")),
 
           card_footer(
             "Texto"

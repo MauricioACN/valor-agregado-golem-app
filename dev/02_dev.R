@@ -47,6 +47,7 @@ usethis::use_data_raw(name = "mediasSaber11", open = FALSE)
 usethis::use_data_raw(name = "resultados", open = FALSE)
 usethis::use_data_raw(name = "medias_nal", open = FALSE)
 usethis::use_data_raw(name = "resultados_modelos", open = FALSE)
+usethis::use_data_raw(name = "ATTdf", open = FALSE)
 
 ## Tests ----
 ## Add one line by test you want to create
