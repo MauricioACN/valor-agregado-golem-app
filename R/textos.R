@@ -75,3 +75,21 @@ detalle_modelo_2 <- '
         <p align="justify">Posteriormente en una regresión lineal en la que La variable dependiente es la **diferencia entre los puntajes estandarizados**. Alli se controla por las mismas variables del emparejamiento más una dummy de tratamiento sobre el grupo total (tratamiento + control) se toma el coeficiente de la variable tratamiento como el efecto promedio sobre los tratados (ATT por sus siglas en inglés)</p>
 
 '
+
+integrantes <- '
+
+        <h2 align="center">Facultad de Ingeniería, Diseño e Innovación | Escuela de Ciencias Básicas</h2>
+
+        <h3 align="center">Investiagadores</h3>
+
+        <ul>
+
+            <li>Rafael Armando Garcia</li>
+            <li>Hugo Edver Zamora</li>
+            <li>Jose Wilmar Quintero</li>
+            <li>Henry David Bacca</li>
+            <li>Frederecik Mendoza</li>
+
+        </ul>
+
+'
