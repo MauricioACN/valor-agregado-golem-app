@@ -20,8 +20,7 @@ attachment::att_amend_desc()
 
 ## Add modules ----
 ## Create a module infrastructure in R/
-golem::add_module(name = "name_of_module1", with_test = TRUE) # Name of the module
-golem::add_module(name = "name_of_module2", with_test = TRUE) # Name of the module
+golem::add_module(name = "introduccion", with_test = TRUE) # Name of the module
 golem::add_module(name = "comparador", with_test = TRUE) # Name of the module
 golem::add_module(name = "descriptivo", with_test = TRUE) # Name of the module
 golem::add_module(name = "modelo", with_test = TRUE) # Name of the module
