@@ -8,8 +8,11 @@
 #' @noRd
 app_server <- function(input, output, session) {
 
-  mod_name_of_module1_server("name_of_module1_1", datos = resultados)
-  mod_name_of_module2_server("name_of_module2_1", datos = resultados, saberPro = mediasSaberPro, saber11 = mediasSaber11)
+  #introduccion
+  mod_introduccion_server("introduccion_1")
+
+  # mod_name_of_module1_server("name_of_module1_1", datos = resultados)
+  # mod_name_of_module2_server("name_of_module2_1", datos = resultados, saberPro = mediasSaberPro, saber11 = mediasSaber11)
 
   # Comparadores
   mod_comparador_server("comparador_1",datos = resultados, saberPro = mediasSaberPro, saber11 = mediasSaber11)

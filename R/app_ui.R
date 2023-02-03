@@ -23,8 +23,8 @@ app_ui <- function(request) {
                       ),
 
     shiny::tabPanel(title = 'Introducción',value = 'inicio',
-                    h1('Aqui va la introduccion'),
-                    HTML(introduccion_app)),
+                    mod_introduccion_ui("introduccion_1")
+                    ),
     shiny::tabPanel(title = 'Descriptivo',value = 'grupo_ref',
                     mod_descriptivo_ui("descriptivo_1")
                     ),
@@ -63,7 +63,7 @@ golem_add_external_resources <- function() {
     favicon(),
     bundle_resources(
       path = app_sys("app/www"),
-      app_title = "valoragregado"
+      app_title = "Valor Agregado"
     )
     # Add here other external resources
     # for example, you can add shinyalert::useShinyalert()
