@@ -42,6 +42,11 @@ mod_modelo_server <- function(id){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
+    vars <- stats::setNames(
+      object = colnames(resultados_modelos)[1:7],
+      nm = c("Residencia Urbana o Rural","Estado Civil","Grupo Referencia","Indice Socioeconomico","Nivel de Educación de los Padres","Puntaje Global de la prueba saber 11","Tenencia de Internet en la Familia")
+    )
+
     output$filtros <- renderUI({
 
       list(
@@ -87,9 +92,9 @@ mod_modelo_server <- function(id){
 
         shiny::selectInput(inputId = ns('variable_modelo'),
                            label = 'Variable en Modelo:',
-                           choices = colnames(resultados_modelos)[1:7],
+                           choices = vars,
                            multiple = F,
-                           selected = colnames(resultados_modelos)[1])
+                           selected = vars[1])
 
       }
 
