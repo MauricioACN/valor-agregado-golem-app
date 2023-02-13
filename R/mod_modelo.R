@@ -66,11 +66,9 @@ mod_modelo_server <- function(id){
                                 selected = resultados_modelos$INST_NOMBRE_INSTITUCION[1],
                                 options = list(maxOptions = 3)),
 
-          shiny::selectInput(inputId = ns('variable_modelo'),
-                                label = 'Variable en Modelo:',
-                                choices = colnames(resultados_modelos)[1:7],
-                                multiple = F,
-                                selected = colnames(resultados_modelos)[1])),
+          shiny::uiOutput(ns('variable_modelado'))
+
+          ),
 
           card_footer(
             "Texto"
@@ -83,6 +81,19 @@ mod_modelo_server <- function(id){
 
     })
 
+    output$variable_modelado <- renderUI({
+
+      if (input$tipo_modelo == 'Propensity Score Matching') {
+
+        shiny::selectInput(inputId = ns('variable_modelo'),
+                           label = 'Variable en Modelo:',
+                           choices = colnames(resultados_modelos)[1:7],
+                           multiple = F,
+                           selected = colnames(resultados_modelos)[1])
+
+      }
+
+    })
 
     output$texto_modelos <- renderText({
 
