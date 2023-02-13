@@ -150,7 +150,7 @@ mod_modelo_server <- function(id){
     })
 
 
-    output$graficos <- renderUI({
+    output$grafico_general <- renderUI({
 
       list(
 
@@ -169,6 +169,67 @@ mod_modelo_server <- function(id){
 
         )
 
+
+      )
+
+    })
+
+    output$graficos <- renderUI({
+
+      req(input$tipo_modelo)
+
+      fluidRow(
+
+        column(12,shiny::uiOutput(ns("grafico_general"))),
+
+        if (input$tipo_modelo == 'Propensity Score Matching') {
+
+          column(12,shiny::uiOutput(ns("detalle_grafico")))
+
+        }
+
+      )
+
+
+    })
+
+    output$detalle_grafico <- renderUI({
+
+
+      fluidRow(
+
+        column(6,
+
+               card(
+
+                 card_header(
+                   class = "bg-dark",
+                   paste("Sin Muestreo")),
+
+                 plotOutput(ns("grafico_sin_correccion")),
+
+                 card_footer(
+                   "Texto"
+                 )
+               )
+
+               ),
+      column(6,
+
+             card(
+
+               card_header(
+                 class = "bg-dark",
+                 paste("Con Muestreo")),
+
+               plotOutput(ns("grafico_con_correccion")),
+
+               card_footer(
+                 "Texto"
+               )
+             )
+
+             )
 
       )
 
