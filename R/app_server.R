@@ -22,6 +22,6 @@ app_server <- function(input, output, session) {
   mod_descriptivo_server("descriptivo_1", datos = resultados)
 
   #modelo
-  mod_modelo_server("modelo_1")
+  mod_modelo_server("modelo_1", datos= resultados_modelos)
 
 }

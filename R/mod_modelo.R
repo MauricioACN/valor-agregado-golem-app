@@ -38,12 +38,12 @@ mod_modelo_ui <- function(id){
 #' modelo Server Functions
 #'
 #' @noRd
-mod_modelo_server <- function(id){
+mod_modelo_server <- function(id,datos){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
     vars <- stats::setNames(
-      object = colnames(resultados_modelos)[1:7],
+      object = colnames(datos)[1:7],
       nm = c("Residencia Urbana o Rural","Estado Civil","Grupo Referencia","Indice Socioeconomico","Nivel de Educación de los Padres","Puntaje Global de la prueba saber 11","Tenencia de Internet en la Familia")
     )
 
@@ -66,9 +66,9 @@ mod_modelo_server <- function(id){
 
           shiny::selectizeInput(inputId = ns('universidad'),
                                 label = 'Universidad:',
-                                choices = resultados_modelos %>% distinct(!!sym("INST_NOMBRE_INSTITUCION")) %>% pull(),
+                                choices = datos %>% distinct(!!sym("INST_NOMBRE_INSTITUCION")) %>% pull(),
                                 multiple = F,
-                                selected = resultados_modelos$INST_NOMBRE_INSTITUCION[1],
+                                selected = datos$INST_NOMBRE_INSTITUCION[1],
                                 options = list(maxOptions = 3)),
 
           shiny::uiOutput(ns('variable_modelado'))
@@ -193,8 +193,38 @@ mod_modelo_server <- function(id){
 
     })
 
-    output$detalle_grafico <- renderUI({
+    datos_filtrados <- reactive({
 
+      req(input$universidad)
+
+      data_clean = datos %>% filter(input$universidad==!!sym('INST_NOMBRE_INSTITUCION'))
+
+      if (input$variable_modelo %in% c('GRUPOREFERENCIA','FAMI_EDUCACIONPADRE.y','ESTU_ESTADOCIVIL')) {
+
+        data_clean[,input$variable_modelo] <- stringr::str_wrap(data_clean[,input$variable_modelo], width = 15)
+        data_clean
+      }
+
+      else{
+
+        data_clean
+
+      }
+
+
+
+    })
+
+    datos_con_muestra <- reactive({
+
+      req(input$variable_modelo)
+
+      data_clean = datos_filtrados() %>% filter(submuestra==1)
+
+    })
+
+
+    output$detalle_grafico <- renderUI({
 
       fluidRow(
 
@@ -225,13 +255,30 @@ mod_modelo_server <- function(id){
                plotOutput(ns("grafico_con_correccion")),
 
                card_footer(
-                 "Texto"
+                 paste(input$variable_modelo)
                )
              )
 
              )
 
       )
+
+    })
+
+
+    output$grafico_sin_correccion <- renderPlot({
+
+      req(input$variable_modelo)
+
+      graficos_distribucion_modelado(datos_filtrados(),input$variable_modelo)
+
+    })
+
+    output$grafico_con_correccion <- renderPlot({
+
+      req(input$variable_modelo)
+
+      graficos_distribucion_modelado(datos_con_muestra(),input$variable_modelo)
 
     })
 

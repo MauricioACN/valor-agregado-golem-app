@@ -5,7 +5,7 @@
 #' @return The return value, if any, from executing the function.
 #'
 #' @noRd
-#' @importFrom dplyr mutate filter select group_by summarise n arrange
+#' @importFrom dplyr mutate filter select group_by summarise n arrange group_by_
 #' @importFrom tidyr all_of
 #' @import ggplot2
 #' @importFrom rlang sym
@@ -345,5 +345,21 @@ create_graph_general_var <- function(datos, mediasSaber11, mediasSaberPro, grupo
 #                                      c(NA, NA, NA)))
 # }
 
+graficos_distribucion_modelado <- function(datos, variable){
 
+  if (variable %in% c('inse_imputado','Global.11')) {
+
+    ggplot(datos, aes_string(x=variable, fill = 'treat',colour = 'treat')) +
+      geom_density(alpha = 0.5,bw = "bcv")
+    }
+
+  else{
+
+    ggplot(datos, aes_string(x=variable, fill = 'treat')) +
+      geom_bar(position = "dodge")+theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+
+  }
+
+}
 
