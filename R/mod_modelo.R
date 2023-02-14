@@ -7,6 +7,9 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
+#' @importFrom stats setNames
+#' @importFrom stringr str_wrap
+#'
 mod_modelo_ui <- function(id){
   ns <- NS(id)
   tagList(
@@ -42,7 +45,7 @@ mod_modelo_server <- function(id,datos){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
-    vars <- stats::setNames(
+    vars <- setNames(
       object = colnames(datos)[1:7],
       nm = c("Residencia Urbana o Rural","Estado Civil","Grupo Referencia","Indice Socioeconomico","Nivel de Educación de los Padres","Puntaje Global de la prueba saber 11","Tenencia de Internet en la Familia")
     )
@@ -201,7 +204,7 @@ mod_modelo_server <- function(id,datos){
 
       if (input$variable_modelo %in% c('GRUPOREFERENCIA','FAMI_EDUCACIONPADRE.y','ESTU_ESTADOCIVIL')) {
 
-        data_clean[,input$variable_modelo] <- stringr::str_wrap(data_clean[,input$variable_modelo], width = 15)
+        data_clean[,input$variable_modelo] <- str_wrap(data_clean[,input$variable_modelo], width = 15)
         data_clean
       }
 
