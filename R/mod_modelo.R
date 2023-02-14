@@ -9,6 +9,7 @@
 #' @importFrom shiny NS tagList
 #' @importFrom stats setNames
 #' @importFrom stringr str_wrap
+#' @importFrom plotly plot_ly layout renderPlotly plotlyOutput
 #'
 mod_modelo_ui <- function(id){
   ns <- NS(id)
@@ -41,7 +42,7 @@ mod_modelo_ui <- function(id){
 #' modelo Server Functions
 #'
 #' @noRd
-mod_modelo_server <- function(id,datos){
+mod_modelo_server <- function(id,datos,resumen_modelo_universidad){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
@@ -146,9 +147,52 @@ mod_modelo_server <- function(id,datos){
     })
 
 
-    output$grafico_att <- renderPlot({
+    output$grafico_att <- renderPlotly({
 
-      ggplot(ATTdf,aes(x=reorder(cods_ies,-Estimate),y=Estimate))+ geom_col(fill="#87CEEB")+theme(axis.text.x = element_text(angle=90,vjust = 0.1,hjust=0.5,size=1))+labs(x="Código SNIES IES",y="Valor agreagado por PSM")
+      req(input$universidad)
+
+      m <- resumen_modelo_universidad[resumen_modelo_universidad$INST_NOMBRE_INSTITUCION==input$universidad, ]
+
+      if (m$Estimate<0) {
+
+        valor_1 = -20
+        valor_2 = 40
+
+      }
+
+      else{
+
+        valor_1 = 20
+        valor_2 = -40
+
+      }
+
+      a <- list(
+        x = m$INST_NOMBRE_INSTITUCION,
+        y = m$Estimate,
+        text = m$INST_NOMBRE_INSTITUCION,
+        xref = "x",
+        yref = "y",
+        showarrow = TRUE,
+        arrowhead = 7,
+        ax = valor_1,
+        ay = valor_2
+      )
+
+      fig <- plot_ly(resumen_modelo_universidad, type='bar', x = ~reorder(INST_NOMBRE_INSTITUCION,-Estimate),
+                     y = ~Estimate,
+                     text = ~INST_NOMBRE_INSTITUCION, name="",
+                     hovertemplate = paste('%{x}', '<br>Score: %{y}<br>'))
+
+      fig <- fig %>% layout(uniformtext=list(minsize=8, mode='hide'),
+                            xaxis= list(showticklabels = FALSE, title = 'Universidades'),
+                            yaxis = list(title = 'Valor Agregado por PSM'),
+                            annotations = a)
+
+      fig
+
+
+      # ggplot(ATTdf,aes(x=reorder(cods_ies,-Estimate),y=Estimate))+ geom_col(fill="#87CEEB")+theme(axis.text.x = element_text(angle=90,vjust = 0.1,hjust=0.5,size=1))+labs(x="Código SNIES IES",y="Valor agreagado por PSM")
 
     })
 
@@ -163,7 +207,7 @@ mod_modelo_server <- function(id,datos){
             class = "bg-dark",
             paste("Modelado")),
 
-          plotOutput(ns("grafico_att")),
+          plotlyOutput(ns("grafico_att")),
 
           card_footer(
             "Texto"
