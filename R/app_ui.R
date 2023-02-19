@@ -29,18 +29,6 @@ app_ui <- function(request) {
                     mod_descriptivo_ui("descriptivo_1")
                     ),
     shiny::tabPanel(title = 'Modelo',value = 'modelo',
-                    mod_modelo_ui("modelo_1")
-                    ),
-    shiny::tabPanel(title = 'Comparador',value = 'compara',
-                    h3("Comparador de Resultados"),
-                    fluidRow(
-                      column(12,
-                             fluidRow(
-                               column(6,mod_comparador_ui("comparador_1")),
-                               column(6,mod_comparador_ui("comparador_2"))))
-                      )
-                    ),
-    shiny::tabPanel(title = "prueba_", value = 'prueba_',
                     shiny::selectizeInput(inputId = 'modelos_universidad_prog',
                                           label = 'Seleccione nivel de detalle:',
                                           choices = c("Universidad",'Programa'),
@@ -49,6 +37,15 @@ app_ui <- function(request) {
                                           options = list(maxOptions = 3)),
 
                     shiny::uiOutput("salida_modelo")
+    ),
+    shiny::tabPanel(title = 'Comparador',value = 'compara',
+                    h3("Comparador de Resultados"),
+                    fluidRow(
+                      column(12,
+                             fluidRow(
+                               column(6,mod_comparador_ui("comparador_1")),
+                               column(6,mod_comparador_ui("comparador_2"))))
+                      )
                     )
   )
   )
