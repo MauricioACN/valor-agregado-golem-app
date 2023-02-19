@@ -347,7 +347,7 @@ create_graph_general_var <- function(datos, mediasSaber11, mediasSaberPro, grupo
 
 graficos_distribucion_modelado <- function(datos, variable){
 
-  if (variable %in% c('inse_imputado','Global.11')) {
+  if (variable %in% c('inse_imputado','Global.11','Global.11.Z')) {
 
     ggplot(datos, aes_string(x=variable, fill = 'treat',colour = 'treat')) +
       geom_density(alpha = 0.5,bw = "bcv")
