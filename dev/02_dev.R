@@ -24,6 +24,7 @@ golem::add_module(name = "introduccion", with_test = TRUE) # Name of the module
 golem::add_module(name = "comparador", with_test = TRUE) # Name of the module
 golem::add_module(name = "descriptivo", with_test = TRUE) # Name of the module
 golem::add_module(name = "modelo", with_test = TRUE) # Name of the module
+golem::add_module(name = "est_modelos", with_test = TRUE) # Name of the module
 
 #functions to
 
@@ -47,6 +48,9 @@ usethis::use_data_raw(name = "resultados", open = FALSE)
 usethis::use_data_raw(name = "medias_nal", open = FALSE)
 usethis::use_data_raw(name = "resultados_modelos", open = FALSE)
 usethis::use_data_raw(name = "ATTdf", open = FALSE)
+usethis::use_data_raw(name = "resultados_modelos_prog", open = FALSE)
+usethis::use_data_raw(name = "ATTprog", open = FALSE)
+
 
 ## Tests ----
 ## Add one line by test you want to create
