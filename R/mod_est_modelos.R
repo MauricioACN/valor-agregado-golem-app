@@ -332,7 +332,7 @@ mod_est_modelos_server <- function(id, datos, resumen_modelo_universidad, detall
 
                  card_header(
                    class = "bg-dark",
-                   paste("Sin Muestreo")),
+                   paste("Sin Emparejamiento")),
 
                  plotOutput(ns("grafico_sin_correccion"))
                )
@@ -344,7 +344,7 @@ mod_est_modelos_server <- function(id, datos, resumen_modelo_universidad, detall
 
                  card_header(
                    class = "bg-dark",
-                   paste("Con Muestreo")),
+                   paste("Con Emparejamiento")),
 
                  plotOutput(ns("grafico_con_correccion"))
                )
