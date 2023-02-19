@@ -8,6 +8,8 @@
 #'
 #' @importFrom shiny NS tagList
 #' @importFrom shiny isTruthy
+#' @importFrom plotly plot_ly renderPlotly plotlyOutput layout
+#' @importFrom stats setNames
 #'
 mod_est_modelos_ui <- function(id){
   ns <- NS(id)
