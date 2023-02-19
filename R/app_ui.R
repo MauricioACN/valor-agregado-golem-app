@@ -39,6 +39,16 @@ app_ui <- function(request) {
                                column(6,mod_comparador_ui("comparador_1")),
                                column(6,mod_comparador_ui("comparador_2"))))
                       )
+                    ),
+    shiny::tabPanel(title = "prueba_", value = 'prueba_',
+                    shiny::selectizeInput(inputId = 'modelos_universidad_prog',
+                                          label = 'Seleccione nivel de detalle:',
+                                          choices = c("Universidad",'Programa'),
+                                          multiple = F,
+                                          selected = "Universidad",
+                                          options = list(maxOptions = 3)),
+
+                    shiny::uiOutput("salida_modelo")
                     )
   )
   )

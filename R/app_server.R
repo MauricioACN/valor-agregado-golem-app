@@ -18,7 +18,27 @@ app_server <- function(input, output, session) {
   #estadistica descriptiva
   mod_descriptivo_server("descriptivo_1", datos = resultados)
 
-  #modelo
-  mod_modelo_server("modelo_1", datos= resultados_modelos, resumen_modelo_universidad = ATTdf)
+  output$salida_modelo <- renderUI({
+
+    req(input$modelos_universidad_prog)
+
+    if (input$modelos_universidad_prog=="Universidad") {
+
+      mod_est_modelos_ui("est_modelos_1")
+
+    }
+
+    else{
+
+      mod_est_modelos_ui("est_modelos_2")
+
+    }
+
+  })
+
+
+  mod_est_modelos_server("est_modelos_1", datos = resultados_modelos, resumen_modelo_universidad = ATTdf, detalle = "Universidad")
+  mod_est_modelos_server("est_modelos_2", datos = resultados_modelos_prog, resumen_modelo_universidad = ATTprog, detalle = "Programa")
+
 
 }
