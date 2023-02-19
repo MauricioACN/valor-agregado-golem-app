@@ -65,7 +65,8 @@ mod_est_modelos_server <- function(id, datos, resumen_modelo_universidad, detall
 
       list(
 
-        card(height = 500,
+        card(
+          height = 477,
 
              card_header(
                class = "bg-dark",
@@ -150,7 +151,7 @@ mod_est_modelos_server <- function(id, datos, resumen_modelo_universidad, detall
 
       list(
 
-        card(full_screen = TRUE,height = 400,
+        card(full_screen = TRUE,height = 477,
 
              card_header(
                class = "bg-dark",
