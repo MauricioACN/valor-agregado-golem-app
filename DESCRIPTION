@@ -20,7 +20,8 @@ Imports:
     stringr,
     thematic,
     DT,
-    shinyalert
+    shinyalert,
+    plotly
 Suggests: 
     spelling,
     testthat (>= 3.0.0)
