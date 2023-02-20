@@ -10,6 +10,7 @@
 #' @importFrom shiny isTruthy
 #' @importFrom plotly plot_ly renderPlotly plotlyOutput layout
 #' @importFrom stats setNames
+#' @importFrom stringr str_wrap
 #'
 mod_est_modelos_ui <- function(id){
   ns <- NS(id)
