@@ -200,7 +200,7 @@ mod_est_modelos_server <- function(id, datos, resumen_modelo_universidad, detall
 
       texto = ifelse(detalle == "Universidad",m$INST_NOMBRE_INSTITUCION,m$llave_snies_prog)
 
-      texto = paste(texto,"<br>Estimación:",round(m$Estimate,3))
+      texto = paste(texto,"<br>Estimación:",round(as.numeric(m$Estimate),3))
 
       a <- list(
         x = ifelse(detalle == "Universidad",m$INST_NOMBRE_INSTITUCION,m$ESTU_PRGM_ACADEMICO),
@@ -324,7 +324,7 @@ mod_est_modelos_server <- function(id, datos, resumen_modelo_universidad, detall
       a <- list(
         x = m$INST_NOMBRE_INSTITUCION,
         y = m$`Valor Agregado`,
-        text = paste(m$INST_NOMBRE_INSTITUCION,"<br>Estimación:",round(m$Estimate,3)),
+        text = paste(m$INST_NOMBRE_INSTITUCION,"<br>Estimación:",round(as.numeric(m$`Valor Agregado`),3)),
         xref = "x",
         yref = "y",
         showarrow = TRUE,
