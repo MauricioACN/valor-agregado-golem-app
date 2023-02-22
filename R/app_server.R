@@ -37,8 +37,8 @@ app_server <- function(input, output, session) {
   })
 
 
-  mod_est_modelos_server("est_modelos_1", datos = resultados_modelos, resumen_modelo_universidad = ATTdf, detalle = "Universidad")
-  mod_est_modelos_server("est_modelos_2", datos = resultados_modelos_prog, resumen_modelo_universidad = ATTprog, detalle = "Programa")
+  mod_est_modelos_server("est_modelos_1", datos = resultados_modelos, resumen_modelo_universidad = ATTdf, detalle = "Universidad",resumen_modelo_universidad_jerq = valor_agregado_jearquico_IES)
+  mod_est_modelos_server("est_modelos_2", datos = resultados_modelos_prog, resumen_modelo_universidad = ATTprog, detalle = "Programa", resumen_modelo_universidad_jerq = valor_agregado_jearquico_IES)
 
 
 }

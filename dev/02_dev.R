@@ -50,7 +50,7 @@ usethis::use_data_raw(name = "resultados_modelos", open = FALSE)
 usethis::use_data_raw(name = "ATTdf", open = FALSE)
 usethis::use_data_raw(name = "resultados_modelos_prog", open = FALSE)
 usethis::use_data_raw(name = "ATTprog", open = FALSE)
-
+usethis::use_data_raw(name = "Vajerarquicoies", open = FALSE)
 
 ## Tests ----
 ## Add one line by test you want to create

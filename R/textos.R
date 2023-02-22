@@ -62,8 +62,18 @@ introduccion_app <- '
 
 detalle_modelo_1 <- '
 
-
-
+                          <p align="justify">
+                          La variación de la prueba saber pro está en dos fuentes: una intra-institucional que se debe a los estudiantes de cada IES y están correlacionados. y otra inter-institucional debida a las características de cada IES.
+                          </p>
+                          <p align="justify">
+                          El propósito de este modelo es dividir las fuentes de variación. En lo referente a la fuente institucional se utilizan como variables explicativas o independientes del resultado en la prueba saber pro la condición de acreditación de alta calidad y la proporción de docentes con doctorado.
+                          </p>
+                          <p align="justify">
+                          En principio, el resultado de la prueba saber pro depende de las condiciones previas del estudiante en lo referente a su desempeño en la prueba saber 11 y su condición socio económica. También se tiene en cuenta el grupo de referencia (Área de conocimiento). Sin embargo, el nivel de asociación entre la prueba saber 11 y la saber pro, medido en el coeficiente b (nos centramos en esta relación para enfocarnos en el valor agregado entre pruebas) es variable entre cada IES dependiendo de sus condiciones de acreditación y proporción de docentes con doctorado.
+                          </p>
+                          <p align="justify">
+                          El valor agregado se refiere a los efectos aleatorios en el intercepto de cada IES . Específicamente se mide como el valor esperado o valor promedio del puntaje global en competencias genéricas de cada IES de acuerdo con la predicción del modelo jerárquico.
+                          </p>
 '
 
 

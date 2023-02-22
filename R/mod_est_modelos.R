@@ -41,7 +41,7 @@ mod_est_modelos_ui <- function(id){
 #' est_modelos Server Functions
 #'
 #' @noRd
-mod_est_modelos_server <- function(id, datos, resumen_modelo_universidad, detalle){
+mod_est_modelos_server <- function(id, datos, resumen_modelo_universidad, detalle, resumen_modelo_universidad_jerq){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
@@ -246,7 +246,29 @@ mod_est_modelos_server <- function(id, datos, resumen_modelo_universidad, detall
             class = "bg-dark",
             paste("Modelado")),
 
-          plotlyOutput(ns("grafico_att"))
+          if (input$tipo_modelo == 'Propensity Score Matching') {
+
+            plotlyOutput(ns("grafico_att"))
+
+          }
+          else{
+
+            if (detalle == 'Universidad') {
+
+              shiny::uiOutput(ns("detalle_grafico_jerq"))
+
+            }
+
+            else {
+
+              paste("Grafico no disponible a nivel de",detalle)
+
+            }
+
+
+
+          }
+
         )
       )
 
@@ -270,6 +292,61 @@ mod_est_modelos_server <- function(id, datos, resumen_modelo_universidad, detall
 
 
     })
+
+    output$detalle_grafico_jerq <- renderUI({
+
+      req(input$universidad)
+
+      if (detalle == "Universidad"){
+
+        m <- resumen_modelo_universidad_jerq[resumen_modelo_universidad_jerq$INST_NOMBRE_INSTITUCION==input$universidad, ]
+
+      }
+
+      if (m$`Valor Agregado`<0) {
+
+        valor_1 = -20
+        valor_2 = 40
+
+      }
+
+      else{
+
+        valor_1 = 20
+        valor_2 = -40
+
+      }
+
+      a <- list(
+        x = m$INST_NOMBRE_INSTITUCION,
+        y = m$`Valor Agregado`,
+        text = m$INST_NOMBRE_INSTITUCION,
+        xref = "x",
+        yref = "y",
+        showarrow = TRUE,
+        arrowhead = 7,
+        ax = valor_1,
+        ay = valor_2
+      )
+
+      if (detalle == "Universidad") {
+
+        fig <- plot_ly(resumen_modelo_universidad_jerq, type='bar', x = ~reorder(INST_NOMBRE_INSTITUCION,-`Valor Agregado`),
+                       y = ~`Valor Agregado`,
+                       text = ~INST_NOMBRE_INSTITUCION, name="",
+                       hovertemplate = paste('%{x}', '<br>Score: %{y}<br>'))
+
+        fig <- fig %>% layout(uniformtext=list(minsize=8, mode='hide'),
+                              xaxis= list(showticklabels = FALSE, title = "Universidades"),
+                              yaxis = list(title = 'Valor Agregado por PSM'),
+                              annotations = a)
+
+        fig
+
+      }
+
+    })
+
 
     datos_filtrados <- reactive({
 
