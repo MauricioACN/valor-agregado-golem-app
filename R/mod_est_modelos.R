@@ -198,10 +198,14 @@ mod_est_modelos_server <- function(id, datos, resumen_modelo_universidad, detall
 
       }
 
+      texto = ifelse(detalle == "Universidad",m$INST_NOMBRE_INSTITUCION,m$llave_snies_prog)
+
+      texto = paste(texto,"<br>Estimación:",round(m$Estimate,3))
+
       a <- list(
         x = ifelse(detalle == "Universidad",m$INST_NOMBRE_INSTITUCION,m$ESTU_PRGM_ACADEMICO),
         y = m$Estimate,
-        text = ifelse(detalle == "Universidad",m$INST_NOMBRE_INSTITUCION,m$llave_snies_prog),
+        text = texto,
         xref = "x",
         yref = "y",
         showarrow = TRUE,
@@ -320,7 +324,7 @@ mod_est_modelos_server <- function(id, datos, resumen_modelo_universidad, detall
       a <- list(
         x = m$INST_NOMBRE_INSTITUCION,
         y = m$`Valor Agregado`,
-        text = m$INST_NOMBRE_INSTITUCION,
+        text = paste(m$INST_NOMBRE_INSTITUCION,"<br>Estimación:",round(m$Estimate,3)),
         xref = "x",
         yref = "y",
         showarrow = TRUE,
