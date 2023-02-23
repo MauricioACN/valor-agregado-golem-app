@@ -26,7 +26,9 @@ mod_est_modelos_ui <- function(id){
 
              ),
              fluidRow(
-               column(12,uiOutput(ns("texto_ayuda")))
+               column(12,uiOutput(ns("texto_ayuda")),
+
+                      )
              )
 
       ),
@@ -158,7 +160,9 @@ mod_est_modelos_server <- function(id, datos, resumen_modelo_universidad, detall
                class = "bg-dark",
                paste("Explicación del Modelo")),
 
-             htmlOutput(ns("texto_modelos"))
+             htmlOutput(ns("texto_modelos")),
+             shiny::uiOutput(ns("formula_1")),
+             shiny::uiOutput(ns("formula_2"))
 
         )
 
@@ -167,6 +171,39 @@ mod_est_modelos_server <- function(id, datos, resumen_modelo_universidad, detall
 
     })
 
+    output$formula_1 <- shiny::renderUI({
+
+      if (input$tipo_modelo == "Modelo lineal jerarquico") {
+
+        withMathJax(
+          shiny::helpText("Primer nivel:
+                          $$Y_{ij}=a_i+b_iGlobal.11+c_iGruporeferencia+d_iIngreso+e_{ij}$$"),
+          shiny::helpText('Segundo nivel:
+                         $$a_i=\\alpha_0+\\alpha_1Acreditación+\\alpha_2propdoctorado+\\mu_i$$'),
+          shiny::helpText('$$b_i=\\alpha_0+\\alpha_1Acreditación+\\alpha_2propdoctorado+\\omega_i$$')
+        )
+
+      }
+
+    })
+
+    output$formula_2 <- renderUI({
+
+      if (input$tipo_modelo == "Modelo lineal jerarquico") {
+
+        list(
+
+          tags$p(align= "justify",
+                 'Donde: ', withMathJax("\\(\\y_{ij}\\):"), 'resultado estandarizado en la prueba saber pro del estudiante \\(\\i\\) en la institución \\(\\j\\).'),
+          tags$p(align= "justify",
+                 "En el anterior modelo los parámetros en letras griegas se estiman como efectos fijos. El término del error \u03BC representa la desviación promedio de cada institución respecto a la media nacional o valor esperado de las instituciones de las mismas condiciones de acreditación y proporción de docentes con doctorado."),
+          tags$p(align= "justify",
+                 "Una limitación de este modelo es que no logra eliminar por completo el sesgo de selección. Es decir las universidades no pueden recibir estudiantes de todo tipo porque algunas experiencias previas determinan que un cierto aspirante se incline más por una que por otra. Es decir se viola el supuesto de manipulabilidad porque en todas las IES no se cuenta con suficientes representantes en toda la distribución de las covariables continuas o en todas las categorías de la variables cualitativas.")
+
+        )
+
+      }
+    })
 
     output$grafico_att <- renderPlotly({
 
