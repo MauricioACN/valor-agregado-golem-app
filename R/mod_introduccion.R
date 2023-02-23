@@ -83,7 +83,7 @@ mod_introduccion_ui <- function(id){
 
       column(2,
              HTML('
-<div class="card">
+<div class="card-persona">
   <div class="card-border-top">
   </div>
   <div class="img">
@@ -94,7 +94,7 @@ mod_introduccion_ui <- function(id){
          ')),
              column(2,
                     HTML('
-<div class="card">
+<div class="card-persona">
   <div class="card-border-top">
   </div>
   <div class="img">
@@ -107,7 +107,7 @@ mod_introduccion_ui <- function(id){
              ),
       column(2,
              HTML('
-<div class="card">
+<div class="card-persona">
   <div class="card-border-top">
   </div>
   <div class="img">
@@ -120,7 +120,7 @@ mod_introduccion_ui <- function(id){
       ),
       column(2,
              HTML('
-<div class="card">
+<div class="card-persona">
   <div class="card-border-top">
   </div>
   <div class="img">
@@ -133,7 +133,7 @@ mod_introduccion_ui <- function(id){
       ),
       column(2,
              HTML('
-<div class="card">
+<div class="card-persona">
   <div class="card-border-top">
   </div>
   <div class="img">
@@ -146,7 +146,7 @@ mod_introduccion_ui <- function(id){
       ),
       column(2,
              HTML('
-<div class="card">
+<div class="card-persona">
   <div class="card-border-top">
   </div>
   <div class="img">
