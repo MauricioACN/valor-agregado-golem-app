@@ -15,7 +15,7 @@ app_ui <- function(request) {
                       id = 'navbar',collapsible = TRUE,
                       theme = bs_theme(
                         version = 5,
-                        bootswatch = 'sketchy',
+                        bootswatch = 'cerulean',
                         base_font = font_google("Oxanium"
                                                 # , local = TRUE
                                                 )
