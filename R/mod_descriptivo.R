@@ -15,20 +15,28 @@ mod_descriptivo_ui <- function(id){
   tagList(
 
     fluidRow(
-      column(6,
-             uiOutput(ns("grafico1"))
-             ),
-      column(6,
-             fluidRow(
-               column(12,uiOutput(ns('grafico2'))
-             ),
-             fluidRow(
-               column(12,uiOutput(ns('grafico3'))
-             )
-             )
-             )
-             )
+
+      column(12,"La siguiente información pertenece a los resultados de los estudiantes en las pruebas saber pro."),
+      fluidRow(
+        column(6,
+               uiOutput(ns("grafico1"))
+        ),
+        column(6,
+               fluidRow(
+                 column(12,uiOutput(ns('grafico2'))
+                 ),
+                 fluidRow(
+                   column(12,uiOutput(ns('grafico3'))
+                   )
+                 )
+               )
+        )
+      )
+
+
     )
+
+
 
   )
 }
@@ -42,16 +50,16 @@ mod_descriptivo_server <- function(id,datos){
 
     output$grafico1 <- renderUI({
 
-      card(full_screen = TRUE,height = 1200,
+      card(full_screen = TRUE,height = 1000,
            card_header(
              class = "bg-dark",
              paste("Estudiantes en cada grupo de referencia")
            ),
-           plotOutput(ns('plot_grupo_ref'),height = '1000px'),
+           plotOutput(ns('plot_grupo_ref'),height = '1000px')
 
-           card_footer(
-             "Esto es un texto"
-           )
+           # card_footer(
+           #   "Esto es un texto"
+           # )
       )
 
     })
@@ -67,17 +75,17 @@ mod_descriptivo_server <- function(id,datos){
 
     output$grafico3 <- renderUI({
 
-      card(full_screen = TRUE,height = 591,
+      card(full_screen = TRUE,height = 491,
            card_header(
              class = "bg-dark",
              paste("Índice de nivel socioeconómico (INSE)")
            ),
 
-           plotOutput(ns('plot_inse')),
+           plotOutput(ns('plot_inse'))
 
-           card_footer(
-             "Esto es un texto"
-           )
+           # card_footer(
+           #   "Esto es un texto"
+           # )
       )
 
     })
@@ -104,7 +112,7 @@ mod_descriptivo_server <- function(id,datos){
 
     output$grafico2 <- renderUI({
 
-      navs_tab_card(height = 590,
+      navs_tab_card(height = 490,
         nav(
           card_header("Genero",class = 'bg-dark'),
             plotOutput(ns('plot_genero')),
