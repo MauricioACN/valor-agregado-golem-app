@@ -89,7 +89,7 @@ mod_introduccion_ui <- function(id){
   <div class="img">
   </div>
   <span> Rafael Armando Garcia</span>
-  <p class="job"> Decano</p>
+  <p class="job"> Decano de la Facultad de Ingeniería</p>
 </div>
          ')),
              column(2,
@@ -99,8 +99,8 @@ mod_introduccion_ui <- function(id){
   </div>
   <div class="img">
   </div>
-  <span> Hugo Edver Zamora</span>
-  <p class="job"> Director</p>
+  <span> Hugo Edver <p>Zamora</p></span>
+  <p class="job"> Director de la Escuela de Ciencias Básicas</p>
 </div>
          ')
 
@@ -125,7 +125,7 @@ mod_introduccion_ui <- function(id){
   </div>
   <div class="img">
   </div>
-  <span> Henry David Bacca</span>
+  <span> Henry David <p>Bacca</p> </span>
   <p class="job"> Docente ciencias Básicas</p>
 </div>
          ')
@@ -138,7 +138,7 @@ mod_introduccion_ui <- function(id){
   </div>
   <div class="img">
   </div>
-  <span> Frederick Mendoza</span>
+  <span> Frederick <p>Mendoza</p></span>
   <p class="job"> Docente ciencias Básicas</p>
 </div>
          ')
@@ -151,7 +151,7 @@ mod_introduccion_ui <- function(id){
   </div>
   <div class="img">
   </div>
-  <span> Claudia Pico</span>
+  <span> Claudia <p>Pico</p></span>
   <p class="job"> Docente escuela de negocios gestion y sostenibilidad</p>
 </div>
          ')
