@@ -86,7 +86,8 @@ mod_introduccion_ui <- function(id){
 <div class="card-persona">
   <div class="card-border-top">
   </div>
-  <div class="img">
+  <div class="card_img">
+   <img src="www/user.png" alt="Italian Trulli">
   </div>
   <span> Rafael Armando Garcia</span>
   <p class="job"> Decano de la Facultad de Ingeniería</p>
@@ -97,7 +98,8 @@ mod_introduccion_ui <- function(id){
 <div class="card-persona">
   <div class="card-border-top">
   </div>
-  <div class="img">
+  <div class="card_img">
+   <img src="www/user.png" alt="Italian Trulli">
   </div>
   <span> Hugo Edver <p>Zamora</p></span>
   <p class="job"> Director de la Escuela de Ciencias Básicas</p>
@@ -110,7 +112,8 @@ mod_introduccion_ui <- function(id){
 <div class="card-persona">
   <div class="card-border-top">
   </div>
-  <div class="img">
+  <div class="card_img">
+   <img src="www/user.png" alt="Italian Trulli">
   </div>
   <span> Jose Wilmar Quintero</span>
   <p class="job"> Docente escuela de negocios gestion y sostenibilidad</p>
@@ -123,7 +126,8 @@ mod_introduccion_ui <- function(id){
 <div class="card-persona">
   <div class="card-border-top">
   </div>
-  <div class="img">
+  <div class="card_img">
+   <img src="www/user.png" alt="Italian Trulli">
   </div>
   <span> Henry David <p>Bacca</p> </span>
   <p class="job"> Docente ciencias Básicas</p>
@@ -136,7 +140,8 @@ mod_introduccion_ui <- function(id){
 <div class="card-persona">
   <div class="card-border-top">
   </div>
-  <div class="img">
+  <div class="card_img">
+   <img src="www/user.png" alt="Italian Trulli">
   </div>
   <span> Frederick <p>Mendoza</p></span>
   <p class="job"> Docente ciencias Básicas</p>
@@ -149,7 +154,8 @@ mod_introduccion_ui <- function(id){
 <div class="card-persona">
   <div class="card-border-top">
   </div>
-  <div class="img">
+  <div class="card_img">
+    <img src="www/user.png" alt="Italian Trulli">
   </div>
   <span> Claudia <p>Pico</p></span>
   <p class="job"> Docente escuela de negocios gestion y sostenibilidad</p>
