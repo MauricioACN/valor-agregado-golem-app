@@ -164,7 +164,7 @@ mod_introduccion_ui <- function(id){
     tags$hr(),
     tags$br(),
 
-    tags$p(align = 'center', "Desarrollado en Shiny por Alejandro Cano")
+    HTML("<p align='center'>Desarrollado en Shiny por <a href= https://www.linkedin.com/in/mauricioacano/ target='_blank'> Alejandro Cano</a> </p>")
 
   )
 }
