@@ -89,7 +89,7 @@ mod_introduccion_ui <- function(id){
   <div class="img">
   </div>
   <span> Rafael Armando Garcia</span>
-  <p class="job"> Cargo</p>
+  <p class="job"> Decano</p>
 </div>
          ')),
              column(2,
@@ -100,7 +100,7 @@ mod_introduccion_ui <- function(id){
   <div class="img">
   </div>
   <span> Hugo Edver Zamora</span>
-  <p class="job"> Cargo</p>
+  <p class="job"> Director</p>
 </div>
          ')
 
@@ -113,7 +113,7 @@ mod_introduccion_ui <- function(id){
   <div class="img">
   </div>
   <span> Jose Wilmar Quintero</span>
-  <p class="job"> Investigador</p>
+  <p class="job"> Docente escuela de negocios gestion y sostenibilidad</p>
 </div>
          ')
 
@@ -126,7 +126,7 @@ mod_introduccion_ui <- function(id){
   <div class="img">
   </div>
   <span> Henry David Bacca</span>
-  <p class="job"> Investigador</p>
+  <p class="job"> Docente ciencias Básicas</p>
 </div>
          ')
 
@@ -139,7 +139,7 @@ mod_introduccion_ui <- function(id){
   <div class="img">
   </div>
   <span> Frederick Mendoza</span>
-  <p class="job"> Investigador</p>
+  <p class="job"> Docente ciencias Básicas</p>
 </div>
          ')
 
@@ -151,8 +151,8 @@ mod_introduccion_ui <- function(id){
   </div>
   <div class="img">
   </div>
-  <span> Alejandro Cano</span>
-  <p class="job"> Desarrollador</p>
+  <span> Claudia Pico</span>
+  <p class="job"> Docente escuela de negocios gestion y sostenibilidad</p>
 </div>
          ')
 
