@@ -479,7 +479,7 @@ mod_est_modelos_server <- function(id, datos, resumen_modelo_universidad, detall
 
       req(input$variable_modelo)
 
-      graficos_distribucion_modelado(datos_filtrados(),input$variable_modelo)
+      graficos_distribucion_modelado(datos_filtrados(),input$variable_modelo,detalle)
 
     })
 
@@ -487,7 +487,7 @@ mod_est_modelos_server <- function(id, datos, resumen_modelo_universidad, detall
 
       req(input$variable_modelo)
 
-      graficos_distribucion_modelado(datos_con_muestra(),input$variable_modelo)
+      graficos_distribucion_modelado(datos_con_muestra(),input$variable_modelo, detalle)
 
     })
 
