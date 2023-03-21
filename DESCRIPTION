@@ -21,7 +21,8 @@ Imports:
     thematic,
     DT,
     shinyalert,
-    plotly
+    plotly,
+    bsicons
 Suggests: 
     spelling,
     testthat (>= 3.0.0)

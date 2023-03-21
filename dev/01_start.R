@@ -56,6 +56,7 @@ usethis::use_package('rsconnect')
 usethis::use_package('DT')
 usethis::use_package('shinyalert')
 usethis::use_pipe()
+usethis::use_package('bsicons')
 
 ## Init Testing Infrastructure ----
 ## Create a template for tests
