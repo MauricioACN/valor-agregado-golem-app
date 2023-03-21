@@ -155,7 +155,7 @@ mod_est_modelos_server <- function(id, datos, resumen_modelo_universidad, detall
 
       list(
 
-        card(full_screen = TRUE,height = 677,
+        card(full_screen = TRUE,height = 670,
 
              card_header(
                class = "bg-dark",
@@ -343,30 +343,30 @@ mod_est_modelos_server <- function(id, datos, resumen_modelo_universidad, detall
 
     })
 
+    cantidad_estudiantes <- reactive({
+
+      paste(nrow(datos_filtrados()))
+
+    })
+
     output$value_boxes <- renderUI({
       layout_column_wrap(
         width = "280px",
         value_box(
           title = "1st value",
           value = "123",
-          showcase = bs_icon("bar-chart"),
-          p("The 1st detail")
+          showcase = bs_icon("bar-chart")
         ),
         value_box(
           title = "2nd value",
           value = "456",
-          showcase = bs_icon("graph-up"),
-          p("The 2nd detail"),
-          p("The 3rd detail")
-        ),
+          showcase = bs_icon("graph-up")
+          ),
         value_box(
-          title = "3rd value",
-          value = "789",
-          showcase = bs_icon("pie-chart"),
-          p("The 4th detail"),
-          p("The 5th detail"),
-          p("The 6th detail")
-        )
+          title = "Estudiantes",
+          value = cantidad_estudiantes(),
+          showcase = bs_icon("people")
+          )
       )
     })
 
