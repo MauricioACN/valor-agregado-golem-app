@@ -11,6 +11,7 @@
 #' @importFrom plotly plot_ly renderPlotly plotlyOutput layout
 #' @importFrom stats setNames
 #' @importFrom stringr str_wrap
+#' @importFrom bsicons bs_icon
 #'
 mod_est_modelos_ui <- function(id){
   ns <- NS(id)
@@ -154,7 +155,7 @@ mod_est_modelos_server <- function(id, datos, resumen_modelo_universidad, detall
 
       list(
 
-        card(full_screen = TRUE,height = 477,
+        card(full_screen = TRUE,height = 677,
 
              card_header(
                class = "bg-dark",
@@ -325,13 +326,48 @@ mod_est_modelos_server <- function(id, datos, resumen_modelo_universidad, detall
 
         if (input$tipo_modelo == 'Propensity Score Matching') {
 
-          column(12,shiny::uiOutput(ns("detalle_grafico")))
+          fluidRow(
+          column(12,
+                 shiny::uiOutput(ns("value_boxes")),
+                 br()
+                 ),
+          column(12,
+                 shiny::uiOutput(ns("detalle_grafico"))
+                 )
+          )
 
         }
 
       )
 
 
+    })
+
+    output$value_boxes <- renderUI({
+      layout_column_wrap(
+        width = "280px",
+        value_box(
+          title = "1st value",
+          value = "123",
+          showcase = bs_icon("bar-chart"),
+          p("The 1st detail")
+        ),
+        value_box(
+          title = "2nd value",
+          value = "456",
+          showcase = bs_icon("graph-up"),
+          p("The 2nd detail"),
+          p("The 3rd detail")
+        ),
+        value_box(
+          title = "3rd value",
+          value = "789",
+          showcase = bs_icon("pie-chart"),
+          p("The 4th detail"),
+          p("The 5th detail"),
+          p("The 6th detail")
+        )
+      )
     })
 
     output$detalle_grafico_jerq <- renderUI({
