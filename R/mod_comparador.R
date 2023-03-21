@@ -32,7 +32,12 @@ mod_comparador_server <- function(id,datos,saberPro,saber11){
 
     datos_clean_1 <- reactive({
 
-      clean_resultados(datos, grupo = input$grupo_referencia)
+      if (input$grupo_referencia == 'Todos'){
+        datos
+      }
+      else{
+        clean_resultados(datos, grupo = input$grupo_referencia)
+      }
 
     })
 
@@ -65,7 +70,7 @@ mod_comparador_server <- function(id,datos,saberPro,saber11){
                                                                        )
                                                             )
                                                ),
-                                  choices = resultados %>% distinct(!!sym("GRUPOREFERENCIA")) %>% pull(),
+                                  choices = c("Todos",resultados %>% distinct(!!sym("GRUPOREFERENCIA")) %>% pull()),
                                   size = 3,selectize=F,multiple = F,selected = resultados$GRUPOREFERENCIA[1])
 
                               ),

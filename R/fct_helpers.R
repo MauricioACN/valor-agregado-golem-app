@@ -96,7 +96,16 @@ clean_resultados <- function(data, n_sample=NA, grupo=NA){
 
 calculate_mean_pro <- function(mediasSaberPro,grupo){
 
-  mediaPro <- mediasSaberPro %>% filter(!!sym("GRUPOREFERENCIA") %in% grupo)
+  if (grupo == 'Todos') {
+
+    mediaPro = mediasSaberPro %>% filter(GRUPOREFERENCIA=='Grupo Referencia Nacional')
+
+  }
+
+  else{
+    mediaPro <- mediasSaberPro %>% filter(!!sym("GRUPOREFERENCIA") %in% grupo)
+  }
+
   return(mediaPro)
 }
 
