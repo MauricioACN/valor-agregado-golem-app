@@ -349,22 +349,28 @@ mod_est_modelos_server <- function(id, datos, resumen_modelo_universidad, detall
 
     })
 
+    cantidad_estudiantes_muestra <- reactive({
+
+      paste(nrow(datos_con_muestra()))
+
+    })
+
     output$value_boxes <- renderUI({
       layout_column_wrap(
         width = "280px",
+        # value_box(
+        #   title = detalle,
+        #   value = ifelse(detalle=="Universidad",input$universidad,input$programa),
+        #   showcase = bs_icon("bar-chart")
+        # ),
         value_box(
-          title = "1st value",
-          value = "123",
-          showcase = bs_icon("bar-chart")
-        ),
-        value_box(
-          title = "2nd value",
-          value = "456",
+          title = "# Estudiantes sin Emparejamiento",
+          value = cantidad_estudiantes(),
           showcase = bs_icon("graph-up")
           ),
         value_box(
-          title = "Estudiantes",
-          value = cantidad_estudiantes(),
+          title = "# Estudiantes con Emparejamiento",
+          value = cantidad_estudiantes_muestra(),
           showcase = bs_icon("people")
           )
       )
