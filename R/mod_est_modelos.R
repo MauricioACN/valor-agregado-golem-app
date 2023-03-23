@@ -91,7 +91,7 @@ mod_est_modelos_server <- function(id, datos, resumen_modelo_universidad, detall
                                        choices = datos %>% distinct(!!sym("INST_NOMBRE_INSTITUCION")) %>% pull(),
                                        multiple = F,
                                        selected = datos$INST_NOMBRE_INSTITUCION[1],
-                                       options = list(maxOptions = 3))
+                                       options = list(maxOptions = 8))
 
                }
                else{
@@ -101,7 +101,7 @@ mod_est_modelos_server <- function(id, datos, resumen_modelo_universidad, detall
                                        choices = datos %>% distinct(!!sym("llave_snies_prog")) %>% pull(),
                                        multiple = F,
                                        selected = datos$llave_snies_prog[1],
-                                       options = list(maxOptions = 3))
+                                       options = list(maxOptions = 8))
 
                }
 
@@ -351,7 +351,8 @@ mod_est_modelos_server <- function(id, datos, resumen_modelo_universidad, detall
 
     cantidad_estudiantes_muestra <- reactive({
 
-      paste(nrow(datos_con_muestra()))
+      data = datos_con_muestra() %>% filter(treat==1)
+      paste(nrow(data))
 
     })
 
@@ -364,12 +365,7 @@ mod_est_modelos_server <- function(id, datos, resumen_modelo_universidad, detall
         #   showcase = bs_icon("bar-chart")
         # ),
         value_box(
-          title = "# Estudiantes sin Emparejamiento",
-          value = cantidad_estudiantes(),
-          showcase = bs_icon("graph-up")
-          ),
-        value_box(
-          title = "# Estudiantes con Emparejamiento",
+          title = "Número de Estudiantes",
           value = cantidad_estudiantes_muestra(),
           showcase = bs_icon("people")
           )
