@@ -11,6 +11,7 @@
 #' @import htmltools
 #' @import shinyWidgets
 #' @importFrom shinyalert shinyalert
+#' @importFrom dplyr sample_n
 
 mod_comparador_ui <- function(id){
   ns <- NS(id)
@@ -33,7 +34,17 @@ mod_comparador_server <- function(id,datos,saberPro,saber11){
     datos_clean_1 <- reactive({
 
       if (input$grupo_referencia == 'Todos'){
-        datos
+
+        if (input$incluir_universidad_programa!="Sin Filtro"){
+
+          datos
+        }
+        else{
+
+          datos %>%
+            sample_n(size=8000)
+
+        }
       }
       else{
         clean_resultados(datos, grupo = input$grupo_referencia)
