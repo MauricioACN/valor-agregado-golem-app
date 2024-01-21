@@ -13,14 +13,15 @@
 #' @importFrom shinyalert shinyalert
 #' @importFrom dplyr sample_n
 #' @importFrom shinyWidgets selectizeGroupUI selectizeGroupServer
+#' @importFrom shinyjs useShinyjs
+#' @importFrom shinyalert useShinyalert
 
 mod_comparador_ui <- function(id){
   ns <- NS(id)
-
   tagList(
-  actionButton(ns("preview"),"Nueva Configuración del Gráfico"),
-  uiOutput(ns("grafico1"))
-  )
+    uiOutput(ns('myCard')),
+    uiOutput(ns('grafico1'))
+    )
 
 }
 
@@ -33,7 +34,10 @@ mod_comparador_server <- function(id,datos,saberPro,saber11){
 
     observeEvent(input$preview, {
 
-      shinyalert(html = T,
+      shinyalert(
+        inputId = "conf_grafico",
+                 html = T,
+                 type = "info",
                  showConfirmButton = TRUE,
                  showCancelButton = T,
                  text =
@@ -41,7 +45,10 @@ mod_comparador_server <- function(id,datos,saberPro,saber11){
 
         fluidRow(
           column(
-            12, selectizeGroupUI(
+            12,
+            p("Haga clic en 'OK' directamente si desea utilizar todos los datos disponibles."),
+            hr(),
+            selectizeGroupUI(
               id = ns("my-filters"),
               params = list(
                 Preg1 = list(inputId = "INST_NOMBRE_INSTITUCION", title = "Universidad:"),
@@ -58,145 +65,107 @@ mod_comparador_server <- function(id,datos,saberPro,saber11){
 
     })
 
-    datos_uni = datos %>% dplyr::select(c("INST_NOMBRE_INSTITUCION",
-                                          'ESTU_METODO_PRGM',
-                                          'ESTU_PRGM_MUNICIPIO',
-                                          'GRUPOREFERENCIA',
-                                          'ESTU_PRGM_ACADEMICO')) %>%
-      dplyr::distinct(.)
-
     df_filter <- callModule(
       module = selectizeGroupServer,
       id = "my-filters",
-      data = datos_uni,
-      vars = names(datos_uni),
+      data = datos,
+      vars = names(datos),
       inline = FALSE
     )
 
-    output$grafico1 <- renderUI({
+    output$mensajeOutput <- renderText({
+      req(df_filter())
 
-      paste(nrow(df_filter()))
+      # texto_salida_filtros = "Filtros Aplicados:\n"
+      #
+      # vars_comparate = list(INST_NOMBRE_INSTITUCION='Universidad: ',
+      #                       ESTU_METODO_PRGM="Modalidad: ",
+      #   ESTU_PRGM_MUNICIPIO='Sede Oferta del Programa:',
+      #   GRUPOREFERENCIA='Grupo de Referencia: ',
+      #   ESTU_PRGM_ACADEMICO='Programa: ')
+      #
+      # for (column in names(vars_comparate)) {
+      #   valores = df_filter() %>% select(column)
+      #   reales = datos[,column]
+      #
+      #   if (nrow(valores)==nrow(reales)) {
+      #     texto_salida_filtros = paste0(texto_salida_filtros, paste0(vars_comparate[[column]], "Todos", collapse = ""), "\n")
+      #   }else if(nrow(valores)>=3) {
+      #     texto_salida_filtros = paste0(texto_salida_filtros, paste0(vars_comparate[[column]], "Varios (", as.character(length(valores)),")", collapse = " "), "\n")
+      #   }else {
+      #     texto_salida_filtros = paste0(texto_salida_filtros, paste0(vars_comparate[[column]], paste(valores, collapse = ", ")), "\n")
+      #   }
+      # }
 
+      number_registers <- format(nrow(df_filter()), nsmall=1, big.mark=",")
+        HTML(
+          "Se usarán un total de: ", as.character(number_registers), " observaciones para construir el gráfico."
+          )
     })
 
-    # datos_clean_1 <- reactive({
-    #
-    #   if (input$grupo_referencia == 'Todos'){
-    #
-    #     if (input$incluir_universidad_programa!="Sin Filtro"){
-    #
-    #       datos
-    #     }
-    #     else{
-    #
-    #       datos %>%
-    #         sample_n(size=8000)
-    #
-    #     }
-    #   }
-    #   else{
-    #     clean_resultados(datos, grupo = input$grupo_referencia)
-    #   }
-    #
-    # })
-    #
-    # mediaPro <- reactive({
-    #   calculate_mean_pro(saberPro, grupo = input$grupo_referencia)
-    # })
-    #
-    # media11 <- reactive({
-    #
-    #   calculate_mean_11(saber11,periodo = input$periodo)
-    #
-    # })
-    #
-    # output$myCard <- renderUI({
+    datos_clean_1 <- reactive({
 
-      # card(
-      #      card_header(
-      #        class = "bg-dark",
-      #        "Configuración"
-      #      ),
-      #      card_body(border_radius = 'all',
+      if (input$generate_graph > 0) {
+        # Actualizar solo cuando se hace clic en "Actualizar Gráfico"
+        if (nrow(df_filter()) >8000) {
+          df_filter() %>% sample_n(size = 8000)
+        } else {
+          df_filter()
+        }
+      } else {
+        # No actualizar automáticamente
+        req(df_filter())
+      }
+    })
 
-      # list(
-      #                fluidRow(
-      #                  column(4,
-      #                         shiny::selectInput(inputId = ns('grupo_referencia'),
-      #                             label = HTML('Grupo de Referencia:',
-      #                                          as.character(actionLink(ns('info_gr'),
-      #                                                                  label = 'Ayuda'
-      #                                                                  )
-      #                                                       )
-      #                                          ),
-      #                             choices = c("Todos",resultados %>% distinct(!!sym("GRUPOREFERENCIA")) %>% pull()),
-      #                             size = 3,selectize=F,multiple = F,selected = resultados$GRUPOREFERENCIA[1])
-      #
-      #                         ),
-      #                  column(4,
-      #                         shiny::selectInput(inputId = ns('prueba'),
-      #                             label = HTML('Prueba:',
-      #                                                   as.character(actionLink(ns('info_prueba'),
-      #                                                                           label = 'Ayuda'
-      #                                                   )
-      #                                                   )
-      #                             ),
-      #                             choices = c('Puntaje Global','Razonamiento Cuantitativo','Inglés','Lectura Crítica'),
-      #                             size = 3,selectize=F)),
-      #                  column(4,
-      #                         shiny::selectInput(inputId = ns('periodo'),
-      #                                    label = HTML('Periodo Prueba Saber 11:',
-      #                                                                           as.character(actionLink(ns('info_periodo'),
-      #                                                                                                   label = 'Ayuda'
-      #                                                                           )
-      #                                                                           )
-      #                                    ),
-      #                                    choices = mediasSaber11 %>% distinct(!!sym("periodoAux")) %>% pull(),
-      #                             selected = mediasSaber11$periodoAux,
-      #                             size = 3,selectize=F,multiple = T)
-      #                         )
-      #          ),
-      #          fluidRow(
-      #            column(6,style = "text-align: center;",
-      #                   shiny::selectInput(inputId = ns('incluir_universidad_programa'),
-      #                                      label = HTML('Filtrar Por:',
-      #                                                                 as.character(actionLink(ns('info_filtro'),
-      #                                                                                         label = 'Ayuda'
-      #                                                                 )
-      #                                                                 )
-      #                                      ),
-      #                                      choices = c('Universidad','Programa','Sin Filtro'),
-      #                                      selected = 'Sin Filtro',selectize = F,size = 3)),
-      #            column(6,style = "text-align: center;",shiny::uiOutput(ns('output_universidad_programa'))
-      #          ),
-      # )
-      # )
+    mediaPro <- reactive({
+      calculate_mean_pro(saberPro, grupo = unique(datos_clean_1()$GRUPOREFERENCIA))
+    })
 
-      #      ),
-      # card_footer("Para seleccionar más de un elemento, mantener presionado Ctrl.")
-      # )
-#
-#     })
-#
+    media11 <- reactive({
+
+      calculate_mean_11(saber11,periodo = input$periodo)
+
+    })
+    output$myCard <- renderUI({
+
+      card(
+        height = 150,
+           card_header(
+             class = "bg-dark",
+             "Configuración"
+           ),
+           card_body(border_radius = 'all',
+
+        fluidRow(
+          column(6,actionButton(ns("preview"),"Nueva Configuración del Gráfico",style = "width:100%;")),
+          column(6,actionButton(ns("generate_graph"),"Generar Gráfico",style = "width:100%;"))
+      )
+      ),
+      card_footer(textOutput(ns("mensajeOutput")))
+      )
+
+      })
+
 #     observeEvent(input$info_gr, {
 #       # Show a modal when the button is pressed
 #       shinyalert("Grupo de Referencia", help_grupo_referencia, type = "info")
 #     })
 #
-#     observeEvent(input$info_periodo, {
-#       # Show a modal when the button is pressed
-#       shinyalert("Periodo Prueba Saber 11", help_periodos, type = "info")
-#     })
+    observeEvent(input$info_periodo, {
+      # Show a modal when the button is pressed
+      shinyalert("Periodo Prueba Saber 11", help_periodos, type = "info")
+    })
 #
 #     observeEvent(input$info_filtro, {
 #       # Show a modal when the button is pressed
 #       shinyalert("Filtrar Por", "Información sobre el filtro", type = "info")
 #     })
 #
-#     observeEvent(input$info_prueba, {
-#       # Show a modal when the button is pressed
-#       shinyalert("Prueba", help_prueba, type = "info")
-#     })
+    observeEvent(input$info_prueba, {
+      # Show a modal when the button is pressed
+      shinyalert("Prueba", help_prueba, type = "info")
+    })
 #
 #
 #     output$output_universidad_programa <- renderUI({
@@ -235,44 +204,67 @@ mod_comparador_server <- function(id,datos,saberPro,saber11){
 #     })
 #
 #
-#     df_clean_final <- reactive({
-#
-#       if(input$incluir_universidad_programa=="Universidad"){
-#         req(input$filtro_universidad)
-#         datos_clean_1() %>% dplyr::filter(!!sym("INST_NOMBRE_INSTITUCION") %in% input$filtro_universidad)
-#
-#       }
-#       else if(input$incluir_universidad_programa=="Programa"){
-#
-#         req(input$filtro_programa)
-#
-#         datos_clean_1() %>% dplyr::filter(!!sym("ESTU_PRGM_ACADEMICO") %in% input$filtro_programa)
-#
-#       }
-#       else{
-#         datos_clean_1()
-#       }
-#
-#     })
-#
-#     output$grafico1 <- renderUI({
-#
-#       card(full_screen = TRUE,
-#            card_header(
-#              class = "bg-dark",
-#              paste("Relación puntajes de las pruebas Saber Pro y Saber 11")
-#            ),
-#
-#              plotOutput(ns('grafico_general')),
-#
-#            card_footer(
-#
-#              shiny::textOutput(ns('text_footer'))
-#
-#            )
-#       )
-#
-#     })
+    # df_clean_final <- reactive({
+    #
+    #   if(input$incluir_universidad_programa=="Universidad"){
+    #     req(input$filtro_universidad)
+    #     datos_clean_1() %>% dplyr::filter(!!sym("INST_NOMBRE_INSTITUCION") %in% input$filtro_universidad)
+    #
+    #   }
+    #   else if(input$incluir_universidad_programa=="Programa"){
+    #
+    #     req(input$filtro_programa)
+    #
+    #     datos_clean_1() %>% dplyr::filter(!!sym("ESTU_PRGM_ACADEMICO") %in% input$filtro_programa)
+    #
+    #   }
+    #   else{
+    #     datos_clean_1()
+    #   }
+    #
+    # })
+
+      output$grafico1 <- renderUI({
+
+        card(full_screen = TRUE,
+             card_header(
+               class = "bg-dark",
+               paste("Relación puntajes de las pruebas Saber Pro y Saber 11")
+             ),
+             fluidRow(
+               column(6,shiny::selectInput(inputId = ns('prueba'),
+                                           label = HTML('Prueba:',
+                                                        as.character(actionLink(ns('info_prueba'),
+                                                                                label = 'Ayuda'
+                                                        )
+                                                        )
+                                           ),
+                                           choices = c('Puntaje Global','Razonamiento Cuantitativo','Inglés','Lectura Crítica'),
+                                           size = 3,selectize=F)),
+               column(6,shiny::selectInput(inputId = ns('periodo'),
+                                          label = HTML('Periodo Prueba Saber 11:',
+                                                       as.character(actionLink(ns('info_periodo'),
+                                                                               label = 'Ayuda'
+                                                       )
+                                                       )
+                                          ),
+                                          choices = mediasSaber11 %>% distinct(!!sym("periodoAux")) %>% pull(),
+                                          selected = mediasSaber11$periodoAux,
+                                          size = 3,selectize=F,multiple = T))
+             ),
+             fluidRow(
+               column(12,plotOutput(ns('grafico_general')))
+                      ),
+
+             card_footer(
+
+               shiny::textOutput(ns('text_footer'))
+
+             )
+        )
+
+      })
+
 #
 #     output$text_footer <- shiny::renderText({
 #
@@ -298,24 +290,30 @@ mod_comparador_server <- function(id,datos,saberPro,saber11){
 #
 #     })
 #
-#     output$grafico_general <- renderPlot({
-#
-#       if (input$prueba=='Puntaje Global'){
-#         sal = 'PUNT_GLOBAL.x'
-#       }
-#       if (input$prueba=='Razonamiento Cuantitativo'){
-#         sal = 'MOD_RAZONA_CUANTITAT_PUNT'
-#       }
-#       if (input$prueba=='Inglés'){
-#         sal = 'MOD_INGLES_PUNT'
-#       }
-#       if (input$prueba=='Lectura Crítica'){
-#         sal = 'MOD_LECTURA_CRITICA_PUNT'
-#       }
-#
-#         create_graph_general_var(df_clean_final(), media11(), mediaPro(), input$grupo_referencia, prueba = sal)
-#
-#     })
+
+    observeEvent(input$generate_graph ,{
+
+    output$grafico_general <- renderPlot({
+
+      if (input$prueba=='Puntaje Global'){
+        sal = 'PUNT_GLOBAL.x'
+      }
+      if (input$prueba=='Razonamiento Cuantitativo'){
+        sal = 'MOD_RAZONA_CUANTITAT_PUNT'
+      }
+      if (input$prueba=='Inglés'){
+        sal = 'MOD_INGLES_PUNT'
+      }
+      if (input$prueba=='Lectura Crítica'){
+        sal = 'MOD_LECTURA_CRITICA_PUNT'
+      }
+
+        create_graph_general_var(datos_clean_1(), media11(), mediaPro(), prueba = sal)
+
+    })
+
+    })
+
 
   })
 }

@@ -95,8 +95,8 @@ clean_resultados <- function(data, n_sample=NA, grupo=NA){
 
 
 calculate_mean_pro <- function(mediasSaberPro,grupo){
-
-  if (grupo == 'Todos') {
+  ### si se selecciona mas de un grupo de referencia se va a comprar contra el promedio Nacional
+  if (length(grupo)>1) {
 
     mediaPro = mediasSaberPro %>% filter(GRUPOREFERENCIA=='Grupo Referencia Nacional')
 
@@ -250,7 +250,7 @@ create_graph_general <- function(datos, mediasSaber11, mediasSaberPro, grupo, pr
 }
 
 
-create_graph_general_var <- function(datos, mediasSaber11, mediasSaberPro, grupo, prueba){
+create_graph_general_var <- function(datos, mediasSaber11, mediasSaberPro, prueba){
 
   y <- prueba
   if(y == "MOD_LECTURA_CRITICA_PUNT"){

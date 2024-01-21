@@ -22,7 +22,8 @@ Imports:
     DT,
     shinyalert,
     plotly,
-    bsicons
+    bsicons,
+    shinyjs
 Suggests: 
     spelling,
     testthat (>= 3.0.0)
