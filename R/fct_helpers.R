@@ -377,3 +377,56 @@ graficos_distribucion_modelado <- function(datos, variable,nivel_modelo){
 
 }
 
+
+calculate_values_for_text_herp = function(prueba,mediasSaberPro,mediasSaber11,datos) {
+  y <- prueba
+  if(y == "MOD_LECTURA_CRITICA_PUNT"){
+    x <- "Lectura_critica.11"
+    subtitulo <- "Lectura crítica"}
+  if(y == "MOD_RAZONA_CUANTITAT_PUNT"){
+    x <- "Matematicas.11"
+    subtitulo <- "Razonamiento cuantitativo"}
+  if(y == "MOD_INGLES_PUNT"){
+    x <- "Ingles.11"
+    subtitulo <- "Inglés"}
+  if(y == "PUNT_GLOBAL.x"){
+    x <- "Global.11"
+    subtitulo <- "Puntaje global"}
+
+  mediaPro <- mediasSaberPro %>% select(all_of(prueba))
+  mediaPro <- as.numeric(mediaPro)
+
+  media11 <- mediasSaber11[x]
+  media11 <- as.numeric(media11)
+
+  nombres <- c(x, y)
+  datos <- datos %>% select(all_of(nombres), periodoAux)
+
+  datos$periodoAux <- as.character(datos$periodoAux)
+  colnames(datos) <- c("x", "y", "periodoAux")
+
+  datos <- datos %>% mutate(cuadrante = ifelse(x >= media11 & y >= mediaPro, "c1",
+                                               ifelse(x < media11 & y >= mediaPro, "c2",
+                                                      ifelse(x < media11 & y < mediaPro, "c3",
+                                                             ifelse(x >= media11 & y < mediaPro, "c4", NA)))))
+
+
+  datos <- na.omit(datos)
+  nivel <- datos %>% group_by(cuadrante) %>% summarise(n())
+  colnames(nivel) <- c("cuadrante", "Estudiantes")
+  total <- sum(nivel$Estudiantes)
+  nivel <- nivel %>% mutate(porcentaje = Estudiantes / total *100)
+
+  pc1 <- as.numeric(nivel %>% filter(cuadrante == "c1") %>% select(porcentaje))
+  pc2 <- as.numeric(nivel %>% filter(cuadrante == "c2") %>% select(porcentaje))
+  pc3 <- as.numeric(nivel %>% filter(cuadrante == "c3") %>% select(porcentaje))
+  pc4 <- as.numeric(nivel %>% filter(cuadrante == "c4") %>% select(porcentaje))
+
+  if(is.na(pc1)){pc1 <- 0}
+  if(is.na(pc2)){pc2 <- 0}
+  if(is.na(pc3)){pc3 <- 0}
+  if(is.na(pc4)){pc4 <- 0}
+
+  return(list(pc1= pc1, pc2 = pc2, pc3 = pc3, pc4 = pc4))
+}
+
