@@ -20,7 +20,8 @@ mod_comparador_ui <- function(id){
   ns <- NS(id)
   tagList(
     uiOutput(ns('myCard')),
-    uiOutput(ns('grafico1'))
+    uiOutput(ns('grafico1')),
+    uiOutput(ns('description_graph'))
     )
 
 }
@@ -146,6 +147,49 @@ mod_comparador_server <- function(id,datos,saberPro,saber11){
       )
 
       })
+
+    lista_cuadrantes_grap = reactive({
+
+      req(input$prueba)
+
+      if (input$prueba=='Puntaje Global'){
+        sal = 'PUNT_GLOBAL.x'
+      }
+      if (input$prueba=='Razonamiento Cuantitativo'){
+        sal = 'MOD_RAZONA_CUANTITAT_PUNT'
+      }
+      if (input$prueba=='Inglés'){
+        sal = 'MOD_INGLES_PUNT'
+      }
+      if (input$prueba=='Lectura Crítica'){
+        sal = 'MOD_LECTURA_CRITICA_PUNT'
+      }
+
+      calculate_values_for_text_herp(prueba = sal,
+                                     mediasSaberPro = mediaPro(),
+                                     mediasSaber11 = media11(),
+                                     datos = datos_clean_1())
+
+
+    })
+
+    output$description_graph <- renderUI({
+
+      card(
+        height = 150,
+        card_header(
+          class = "bg-dark",
+          "Interpretación"
+        ),
+        card_body(border_radius = 'all',
+                  paste0("Cuadrante 1: ",round(lista_cuadrantes_grap()[['pc1']]),"\n",
+                         "Cuadrante 2: ",round(lista_cuadrantes_grap()[['pc2']]),"\n",
+                         "Cuadrante 3: ",round(lista_cuadrantes_grap()[['pc3']]),"\n",
+                         "Cuadrante 4: ",round(lista_cuadrantes_grap()[['pc4']]),"\n")
+                  )
+      )
+
+    })
 
 #     observeEvent(input$info_gr, {
 #       # Show a modal when the button is pressed
