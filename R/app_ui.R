@@ -25,19 +25,19 @@ app_ui <- function(request) {
     shiny::tabPanel(title = 'Introducción',value = 'inicio',
                     mod_introduccion_ui("introduccion_1")
                     ),
-    shiny::tabPanel(title = 'Descriptivo',value = 'grupo_ref',
-                    mod_descriptivo_ui("descriptivo_1")
-                    ),
-    shiny::tabPanel(title = 'Modelo',value = 'modelo',
-                    shiny::selectizeInput(inputId = 'modelos_universidad_prog',
-                                          label = 'Seleccione nivel de detalle:',
-                                          choices = c("Universidad",'Programa'),
-                                          multiple = F,
-                                          selected = "Universidad",
-                                          options = list(maxOptions = 3)),
-
-                    shiny::uiOutput("salida_modelo")
-    ),
+    # shiny::tabPanel(title = 'Descriptivo',value = 'grupo_ref',
+    #                 mod_descriptivo_ui("descriptivo_1")
+    #                 ),
+    # shiny::tabPanel(title = 'Modelo',value = 'modelo',
+    #                 shiny::selectizeInput(inputId = 'modelos_universidad_prog',
+    #                                       label = 'Seleccione nivel de detalle:',
+    #                                       choices = c("Universidad",'Programa'),
+    #                                       multiple = F,
+    #                                       selected = "Universidad",
+    #                                       options = list(maxOptions = 3)),
+    #
+    #                 shiny::uiOutput("salida_modelo")
+    # ),
     shiny::tabPanel(title = 'Comparador',value = 'compara',
                     h3("Comparador de Resultados"),
                     fluidRow(

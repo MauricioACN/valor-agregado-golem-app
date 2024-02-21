@@ -427,6 +427,6 @@ calculate_values_for_text_herp = function(prueba,mediasSaberPro,mediasSaber11,da
   if(is.na(pc3)){pc3 <- 0}
   if(is.na(pc4)){pc4 <- 0}
 
-  return(list(pc1= pc1, pc2 = pc2, pc3 = pc3, pc4 = pc4))
+  return(list(pc1= pc1, pc2 = pc2, pc3 = pc3, pc4 = pc4, media11 = media11, mediapro = mediaPro))
 }
 
