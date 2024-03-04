@@ -20,7 +20,8 @@ app_ui <- function(request) {
                                                 # , local = TRUE
                                                 )
 
-                      ),
+                      ) %>%
+                        bs_add_rules("#my-nav { @extend .justify-content-center }"),
 
     shiny::tabPanel(title = 'Introducción',value = 'inicio',
                     mod_introduccion_ui("introduccion_1")
@@ -38,6 +39,8 @@ app_ui <- function(request) {
     #
     #                 shiny::uiOutput("salida_modelo")
     # ),
+    shiny::tabPanel(title = "Ranking Universidades",value = 'modelo',
+                    mod_modelo_v2_ui("modelo_v2")),
     shiny::tabPanel(title = 'Comparador',value = 'compara',
                     h3("Comparador de Resultados"),
                     fluidRow(

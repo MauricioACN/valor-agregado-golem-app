@@ -18,24 +18,25 @@ app_server <- function(input, output, session) {
   #estadistica descriptiva
   mod_descriptivo_server("descriptivo_1", datos = resultados)
 
-  output$salida_modelo <- renderUI({
+  # output$salida_modelo <- renderUI({
+  #
+  #   req(input$modelos_universidad_prog)
+  #
+  #   if (input$modelos_universidad_prog=="Universidad") {
+  #
+  #     mod_est_modelos_ui("est_modelos_1")
+  #
+  #   }
+  #
+  #   else{
+  #
+  #     mod_est_modelos_ui("est_modelos_2")
+  #
+  #   }
+  #
+  # })
 
-    req(input$modelos_universidad_prog)
-
-    if (input$modelos_universidad_prog=="Universidad") {
-
-      mod_est_modelos_ui("est_modelos_1")
-
-    }
-
-    else{
-
-      mod_est_modelos_ui("est_modelos_2")
-
-    }
-
-  })
-
+  mod_modelo_v2_server("modelo_v2", datos = ATTdf)
 
   mod_est_modelos_server("est_modelos_1", datos = resultados_modelos, resumen_modelo_universidad = ATTdf, detalle = "Universidad",resumen_modelo_universidad_jerq = valor_agregado_jearquico_IES)
   mod_est_modelos_server("est_modelos_2", datos = resultados_modelos_prog, resumen_modelo_universidad = ATTprog, detalle = "Programa", resumen_modelo_universidad_jerq = valor_agregado_jearquico_IES)

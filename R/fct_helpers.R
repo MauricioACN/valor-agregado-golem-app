@@ -16,6 +16,18 @@
 
 thematic::thematic_on(bg="auto",fg="auto",accent = "auto", font = "auto")
 
+bs5_card <- function(body, title = NULL) {
+  div(
+    class = "card",
+    div(class = "card-header bg-primary", title),
+    div(class = "card-body d-flex justify-content-center", body)
+  )
+}
+
+pill <- function(...) {
+  shiny::tabPanel(..., class = "p-3 border rounded")
+}
+
 grafico_bar_hor <- function(nivel,variable_x){
 
   theme_set(theme_bw())
@@ -430,3 +442,78 @@ calculate_values_for_text_herp = function(prueba,mediasSaberPro,mediasSaber11,da
   return(list(pc1= pc1, pc2 = pc2, pc3 = pc3, pc4 = pc4, media11 = media11, mediapro = mediaPro))
 }
 
+
+fill_card = function(nombre_universidad = NULL,
+                     link_universidad = NULL,
+                     posicion_universidad = NULL,
+                     estudiantes_universidad = NULL,
+                     primary_card = FALSE
+                     ) {
+
+  if (is.null(nombre_universidad)) {
+    nombre_universidad = "Universidad Nacional de Colombia"
+  }
+
+  if (is.null(link_universidad)) {
+    link_universidad = "https://unal.edu.co/"
+  }
+
+  if(is.null(posicion_universidad)) {
+    posicion_universidad = "#20"
+  }
+
+  if(is.null(estudiantes_universidad)) {
+    estudiantes_universidad = "20000"
+  }
+
+  if(primary_card) {
+    height_card = "430px"
+  }else{
+    height_card = "200px"
+  }
+
+  card(
+    height = height_card,
+    # fillable = FALSE,
+    card_body(
+      fillable = FALSE,
+      card_title(nombre_universidad, class = "center-text"),
+      tags$hr(),
+      p(
+        class = "center-text",
+        paste0("Posicion: ",posicion_universidad,"*")
+      ),
+      p(
+        class = "center-text",
+        paste0("Estudiantes: ",estudiantes_universidad,"**")
+      )
+    ),
+      class = "card2-container"
+    )
+}
+
+
+css_variable = ".center-text {
+  text-align: center;
+}
+
+.inline {
+  display: table;
+  width: 70%;
+}
+
+.inline label {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: left;
+}
+
+.inline .form-group {
+  display: table-row;
+  flex: 0 0 auto;
+  flex-flow: row wrap;
+  align-items: center;
+  margin-bottom: 0;
+  width: 600px;
+}
+"
