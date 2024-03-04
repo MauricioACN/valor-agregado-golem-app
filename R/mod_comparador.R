@@ -20,7 +20,9 @@ mod_comparador_ui <- function(id){
   ns <- NS(id)
   tagList(
     uiOutput(ns('myCard')),
+    tags$br(),
     uiOutput(ns('grafico1')),
+    tags$br(),
     uiOutput(ns('description_graph'))
     )
 
@@ -130,20 +132,30 @@ mod_comparador_server <- function(id,datos,saberPro,saber11){
     })
     output$myCard <- renderUI({
 
-      card(
-        height = 150,
-           card_header(
-             class = "bg-dark",
-             "Configuración"
-           ),
-           card_body(border_radius = 'all',
+      # card(
+      #   height = 150,
+      #      card_header(
+      #        # class = "bg-dark",
+      #        "Configuración"
+      #      ),
+      #      card_body(border_radius = 'all',
+      #
+      #   fluidRow(
+      #     column(6,actionButton(ns("preview"),"Nueva Configuración del Gráfico",style = "width:100%;")),
+      #     column(6,actionButton(ns("generate_graph"),"Generar Gráfico",style = "width:100%;"))
+      # )
+      # ),
+      # card_footer(textOutput(ns("mensajeOutput")))
+      # )
 
-        fluidRow(
-          column(6,actionButton(ns("preview"),"Nueva Configuración del Gráfico",style = "width:100%;")),
-          column(6,actionButton(ns("generate_graph"),"Generar Gráfico",style = "width:100%;"))
-      )
-      ),
-      card_footer(textOutput(ns("mensajeOutput")))
+      bs5_card(
+        bslib::layout_column_wrap(
+          width = 1/2,
+          actionButton(ns("preview"),"Nueva Configuración del Gráfico"),
+          actionButton(ns("generate_graph"),"Generar Gráfico")
+        ),
+        title = "Configuración",
+        footer_text = textOutput(ns("mensajeOutput"))
       )
 
       })
@@ -295,7 +307,7 @@ mod_comparador_server <- function(id,datos,saberPro,saber11){
 
         card(full_screen = TRUE,
              card_header(
-               class = "bg-dark",
+               class = "card",
                paste("Relación puntajes de las pruebas Saber Pro y Saber 11")
              ),
              fluidRow(

@@ -7,6 +7,8 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
+#' @importFrom stringr str_detect
+#' @importFrom htmlwidgets onRender
 mod_modelo_v2_ui <- function(id){
   ns <- NS(id)
   tagList(
@@ -32,19 +34,53 @@ mod_modelo_v2_server <- function(id,datos){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
+    data_filtrada <- reactive({
+      # req(input$caracter_academico)
+      # if (input$caracter_academico == "Todos"){
+      #   datos
+      # }else{
+      #   datos %>%
+      #     filter(!!sym("Carácter Académico") == input$caracter_academico)
+      # }
+      datos
+    })
+
+
     output$output_table_psm <- renderUI({
 
-      table = DT::renderDataTable(datos,
+      table = DT::renderDataTable(data_filtrada(),
                                   style = "bootstrap5",
-                                  # options = list(height = "400px")
+                                  filter = "top",
+                                  options = list(
+                                    autoWidth = F,
+                                    searchHighlight = TRUE
+                                  )
                                   )
 
       output_ = tagList(
         tags$h2("Propensity Score Matching", class = "center-text"),
-        tags$p("El Propensity Score Matching es una técnica estadística que permite comparar dos grupos de individuos que comparten características similares. En este caso, se compara el desempeño de los estudiantes en la prueba Saber 11 con su desempeño en la prueba Saber Pro.", class = "center-text"),
-        bs5_card(table,title = "Ranking Universitario bajo PSM"),
+        tags$p("El Propensity Score Matching es una técnica estadística que permite comparar dos grupos de individuos que comparten características similares. En este caso, se compara el desempeño de los estudiantes en la prueba Saber 11 con su desempeño en la prueba Saber Pro.", class = "justify-text"),
+        tags$p("Explicaicon de para que se uso el modelo para hacer el ranking de valor agregado.", class = "justify-text"),
         tags$br(),
-        tags$h3("Metodología", class = "center-text"),
+        tags$br(),
+        # layout_column_wrap(
+        #   # width = 1/2,
+        #   width = 1,
+        #   # searchInput(
+        #   #   inputId = ns("search"),
+        #   #   label = "Buscar Institución de Educación Superior (IES):",
+        #   #   placeholder = "Politécnico Grancolombiano...",
+        #   #   width = "100%"
+        #   #   # value = "poli"
+        #   # ),
+        #   selectInput(
+        #     inputId = ns("caracter_academico"),
+        #     label = "Carácter Académico:",
+        #     choices = c("Todos",datos %>% distinct(!!sym("Carácter Académico")) %>% pull())
+        #   )),
+        bs5_card(table,title = "Ranking Universitario por PSM"),
+        tags$br(),
+        tags$h3("Detalle Técnico", class = "center-text"),
         tags$br(),
         HTML(detalle_modelo_2)
       )

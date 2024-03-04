@@ -16,11 +16,12 @@
 
 thematic::thematic_on(bg="auto",fg="auto",accent = "auto", font = "auto")
 
-bs5_card <- function(body, title = NULL) {
+bs5_card <- function(body, title = NULL, footer_text = NULL) {
   div(
     class = "card",
     div(class = "card-header bg-primary", title),
-    div(class = "card-body d-flex justify-content-center", body)
+    div(class = "card-body d-flex justify-content-center", body),
+    div(class = "card-footer", footer_text)
   )
 }
 
@@ -495,6 +496,10 @@ fill_card = function(nombre_universidad = NULL,
 
 css_variable = ".center-text {
   text-align: center;
+}
+
+.justify-text {
+  text-align: justify;
 }
 
 .inline {
