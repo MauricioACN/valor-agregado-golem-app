@@ -495,6 +495,58 @@ fill_card = function(nombre_universidad = NULL,
     )
 }
 
+create_text_for_graph_interpretation_comp = function(input_prueba = NULL,
+                                                     cuadrante = "c1",
+                                                     valor_cuadrante = 0,
+                                                     valor_media_pro = 0,
+                                                     valor_media_11 = 0
+                                                     ) {
+
+  if (cuadrante=="c1") {
+    if (input_prueba=='Puntaje Global'){
+      intro_texto = ' lograron obtener resultados superiores al promedio en el puntaje global '
+    }
+    else{
+      intro_texto = paste0(' superaron el promedio en el áeea de ',input_prueba," ")
+    }
+  }else if(cuadrante=='c2'){
+    if (input_prueba=='Puntaje Global'){
+      intro_texto = ' obtuvieron resultados superiores al promedio en el puntaje global '
+    }
+    else{
+      intro_texto = paste0(' obtuvieron resultados superiores al promedio en el área de ',input_prueba," ")
+    }
+  }else if(cuadrante=='c4'){
+    if (input_prueba=='Puntaje Global'){
+      intro_texto = ' obtuvieron resultados inferiores al promedio en el puntaje global '
+    }
+    else{
+      intro_texto = paste0(' obtuvieron resultados inferiores al promedio en el área de ',input_prueba," ")
+    }
+  }
+
+  if (cuadrante=='c1') {
+    salida = paste0("El ",sprintf("%.0f%%",valor_cuadrante),
+           " de los estudiantes", intro_texto,"tanto en la prueba Saber Pro ",
+           "(con un puntaje superior a ", valor_media_pro, " puntos) ",
+           "como en la prueba Saber 11 (con un puntaje superior a ",valor_media_11,
+           " puntos).")
+  }else if(cuadrante == 'c2'){
+    salida = paste0("El ",sprintf("%.0f%%",valor_cuadrante),
+                    " de los estudiantes", intro_texto,"en la prueba Saber Pro. ",
+                    "Sin embargo, no superaron al promedio en la prueba Saber 11.")
+  }else if(cuadrante == 'c3'){
+    salida = paste0("El ",sprintf("%.0f%%",valor_cuadrante),
+                    " de los estudiantes no superaron al promedio en ninguna de las dos pruebas.")
+  }else{
+    salida = paste0("El ",sprintf("%.0f%%",valor_cuadrante),
+                    " de los estudiantes", intro_texto,"en la prueba Saber 11. ",
+                    "Sin embargo, no superaron al promedio en la prueba Saber Pro.")
+  }
+
+  return(salida)
+
+}
 
 css_variable = ".center-text {
   text-align: center;

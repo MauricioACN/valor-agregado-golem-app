@@ -188,40 +188,48 @@ mod_comparador_server <- function(id,datos,saberPro,saber11){
     observeEvent(input$generate_graph, {
     output$description_graph <- renderUI({
 
-      if (input$prueba=='Puntaje Global'){
-        intro_texto = ' lograron obtener resultados superiores al promedio en el puntaje global '
-      }
-      else{
-        intro_texto = paste0(' superaron el promedio en la prueba de ',input$prueba," ")
-      }
-
-      # card(
-      #   height = 150,
-      #   card_header(
-      #     class = "bg-dark",
-      #     "Interpretación"
-      #   ),
-      #   card_body(border_radius = 'all',
-                  tags$div(
-                    "Este gráfico representa la distribución de estudiantes en cuatro cuadrantes, determinados por los promedios nacionales en las pruebas Saber 11 y Saber Pro:",
-                    tags$style(".list-container { margin-top: 10px; }",
-                               ".list-container li { margin-bottom: 5px; }"),
-                    tags$ul(
-                      class = "list-container",
-                      tags$li("Cuadrante superior derecho: Estudiantes que superaron el promedio en ambas pruebas."),
-                      tags$li("Cuadrante superior izquierdo: Estudiantes que superaron el promedio en Saber Pro pero no en Saber 11."),
-                      tags$li("Cuadrante inferior izquierdo: Estudiantes que no superaron el promedio en ninguna de las pruebas."),
-                      tags$li("Cuadrante inferior derecho: Estudiantes que superaron el promedio en Saber 11 pero no en Saber Pro.")
-                    ),
-                  paste0("El ",sprintf("%.0f%%",round(lista_cuadrantes_grap()[['pc1']])),
-                         " de los estudiantes ", intro_texto,"tanto en la prueba Saber Pro ",
-                         "(con un puntaje superior a ", round(lista_cuadrantes_grap()[['mediapro']]), " puntos) ",
-                         "como en la prueba Saber 11 (con un puntaje superior a ",round(lista_cuadrantes_grap()[['media11']]),
-                         " puntos)."
-                         )
-                  )
-      #             )
-      # )
+      bs5_card(
+        tagList(
+          tags$div(
+            tags$style(".list-container { margin-top: 10px; }",
+                       ".list-container li { margin-bottom: 8px; }"),
+            tags$ul(
+              class = "list-container",
+              tags$li(paste0("Cuadrante Superior Derecho: ",
+                             create_text_for_graph_interpretation_comp(
+                               input_prueba = input$prueba,
+                               cuadrante = "c1",
+                               valor_cuadrante = round(lista_cuadrantes_grap()[['pc1']]),
+                               valor_media_pro = round(lista_cuadrantes_grap()[['mediapro']]),
+                               valor_media_11 = round(lista_cuadrantes_grap()[['media11']])
+                             )
+                             ), class = "justify-text"),
+              tags$li(paste0("Cuadrante Superior Izquierdo: ",
+                             create_text_for_graph_interpretation_comp(
+                               input_prueba = input$prueba,
+                               cuadrante = "c2",
+                               valor_cuadrante = round(lista_cuadrantes_grap()[['pc2']])
+                             )
+                             ), class = "justify-text"),
+              tags$li(paste0("Cuadrante Inferior Izquierdo: ",
+                             create_text_for_graph_interpretation_comp(
+                               input_prueba = input$prueba,
+                               cuadrante = "c3",
+                               valor_cuadrante = round(lista_cuadrantes_grap()[['pc3']])
+                             )
+                             ), class = "justify-text"),
+              tags$li(paste0("Cuadrante Inferior Derecho: ",
+                             create_text_for_graph_interpretation_comp(
+                               input_prueba = input$prueba,
+                               cuadrante = "c4",
+                               valor_cuadrante = round(lista_cuadrantes_grap()[['pc4']])
+                             )
+                             ), class = "justify-text"),
+          )
+          )
+        ),
+      title = "Interpretación del Gráfico"
+      )
 
     })
     })
