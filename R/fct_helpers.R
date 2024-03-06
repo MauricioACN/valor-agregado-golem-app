@@ -369,6 +369,8 @@ create_graph_general_var <- function(datos, mediasSaber11, mediasSaberPro, prueb
 
 graficos_distribucion_modelado <- function(datos, variable,nivel_modelo){
 
+  theme_set(theme_bw())
+
   if (variable %in% c('inse_imputado','Global.11','Global.11.Z')) {
 
     ggplot(datos, aes_string(x=variable, fill = 'treat',colour = 'treat')) +
@@ -378,7 +380,7 @@ graficos_distribucion_modelado <- function(datos, variable,nivel_modelo){
   else{
 
     ggplot(datos, aes_string(x=variable, fill = 'treat')) +
-      geom_bar(aes(y = (..count..)/sum(..count..)), position = "dodge")+
+      geom_bar(aes(y = (after_stat(count))/sum(after_stat(count))), position = "dodge")+
       theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
       scale_y_continuous(name = "Proporción")+
       scale_fill_discrete(name = "Contrastes",
