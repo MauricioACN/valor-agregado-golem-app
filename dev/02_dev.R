@@ -24,8 +24,9 @@ golem::add_module(name = "introduccion", with_test = TRUE) # Name of the module
 golem::add_module(name = "comparador", with_test = TRUE) # Name of the module
 golem::add_module(name = "descriptivo", with_test = TRUE) # Name of the module
 golem::add_module(name = "modelo", with_test = TRUE) # Name of the module
-golem::add_module(name = "est_modelos", with_test = TRUE) # Name of the module
+# golem::add_module(name = "est_modelos", with_test = TRUE) # Name of the module
 golem::add_module(name = "modelo_v2", with_test = TRUE) # Name of the module
+golem::add_module(name = "modelo_programas", with_test = TRUE) # Name of the module
 
 #functions to
 

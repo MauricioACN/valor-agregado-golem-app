@@ -41,6 +41,8 @@ app_ui <- function(request) {
     # ),
     shiny::tabPanel(title = "Ranking Universidades",value = 'modelo',
                     mod_modelo_v2_ui("modelo_v2")),
+    shiny::tabPanel(title = "Ranking Programas",value = 'modelo_programas',
+                    mod_modelo_programas_ui("modelo_programas_1")),
     shiny::tabPanel(title = 'Comparador',value = 'compara',
                     h1("Comparador de Resultados",class = "center-text"),
                     tags$p("Bienvenidos a la sección Comparador. Aquí, podrás explorar y comparar la tendencia individual de cada estudiante a través de gráficos interactivos. ¿Te preguntas cómo se dispersaron los resultados de los estudiantes en las pruebas Saber 11 y Saber Pro? ¡Este es el lugar donde encontrarás las respuestas!" ,class = "justify-text"),
