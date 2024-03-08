@@ -25,7 +25,8 @@ mod_modelo_v2_ui <- function(id){
       ),
       pill("Modelo Jerarquico",
            uiOutput(ns("output_table_jerarquico"))
-           ))
+           )
+      )
   )
 }
 
@@ -78,7 +79,7 @@ mod_modelo_v2_server <- function(id,datos,datos_demograficos, detalle,resumen_je
       output_ = tagList(
         tags$h2("Propensity Score Matching", class = "center-text"),
         tags$p("El Propensity Score Matching es una técnica estadística que permite comparar dos grupos de individuos que comparten características similares. En este caso, se compara el desempeño de los estudiantes en la prueba Saber 11 con su desempeño en la prueba Saber Pro.", class = "justify-text"),
-        tags$p("Explicaicon de para que se uso el modelo para hacer el ranking de valor agregado.", class = "justify-text"),
+        tags$p("Este método se utiliza como base para el ranking de universidades, diseñado para comparar el progreso de estudiantes similares en diferentes instituciones. Primero, agrupamos a los estudiantes con características similares y los comparamos con otros de manera imparcial. Luego, evaluamos cómo cada institución contribuye al crecimiento académico de sus estudiantes en relación con otras. Es una forma equitativa de medir el valor añadido de cada universidad.", class = "justify-text"),
         tags$br(),
         bs5_card(table,title = "Ranking Universitario por PSM"),
         tags$br(),
@@ -150,8 +151,9 @@ mod_modelo_v2_server <- function(id,datos,datos_demograficos, detalle,resumen_je
 
       tagList(
         tags$h2("Modelo Lineal Jerárquico", class = "center-text"),
-        tags$p("El modelo lineal jerarquico es...", class = "justify-text"),
-        tags$p("Explicaicon de para que se uso el modelo para hacer el ranking de valor agregado.", class = "justify-text"),
+        tags$p("Este ranking se basa en el valor esperado o promedio del puntaje global en competencias genéricas de cada institución, de acuerdo con las predicciones del modelo. Esta metodología proporciona una comprensión más profunda de cómo distintos factores a nivel estudiantil e institucional influyen en los resultados de la prueba Saber Pro, lo que permite generar un ranking más completo y preciso de las universidades.", class = "justify-text"),
+        tags$p("Un modelo jerárquico es una estructura analítica que considera múltiples niveles de variación en un conjunto de datos. Permite entender cómo los factores a nivel individual interactúan con los factores a nivel grupal o de clusters, proporcionando una comprensión más completa de los fenómenos estudiados. Estos modelos son útiles en situaciones donde los datos están organizados en una estructura jerárquica, como en estudios educativos donde los estudiantes están agrupados por universidades.", class = "justify-text"),
+        tags$p("Se empleó un modelo jerárquico para analizar la variación en los resultados de la prueba Saber Pro. Este modelo consideró dos fuentes de variación: la relacionada con los estudiantes dentro de cada institución educativa y la relacionada con las características propias de cada institución. Para entender esta variación, el modelo empleó variables explicativas como la condición de acreditación de alta calidad y la proporción de docentes con doctorado. También consideró las condiciones previas del estudiante, como su desempeño en la prueba Saber 11 y su condición socioeconómica, así como el grupo de referencia (Área de conocimiento).",class = "justify-text"),
         tags$br(),
         bs5_card(table,title = "Ranking Universitario por Modelo Lineal Jerarquico"),
         tags$br(),

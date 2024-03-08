@@ -14,7 +14,7 @@ mod_modelo_programas_ui <- function(id){
     golem_add_external_resources(),
     tags$style(HTML(css_variable)),
     tags$h1("Ranking de Programas", class = "center-text"),
-    tags$p("Descubre cómo se clasifican los programas de educación superior en Colombia mediante el uso de dos metodologías (PMS (Propensity Score Matching) y un modelo lineal jerárquico), que analizan los resultados de las pruebas ICFES Saber 11 y Saber Pro. Estas herramientas permiten evaluar y cuantificar el valor agregado de cada institución educativa, considerando tanto los resultados académicos como las características demográficas de los estudiantes.", class = "center-text"),
+    tags$p("Descubre cómo se clasifican los programas de educación superior en Colombia mediante el uso del modelo PSM (Propensity Score Matching) que analiza los resultados de las pruebas ICFES Saber 11 y Saber Pro. Estas herramientas permiten evaluar y cuantificar el valor agregado de cada institución educativa a nivel de programa, considerando tanto los resultados académicos como las características demográficas de los estudiantes.", class = "center-text"),
     tabsetPanel(
       id = "my-nav",
       type = "pills",
@@ -22,16 +22,17 @@ mod_modelo_programas_ui <- function(id){
         "Modelo PSM",
         uiOutput(ns("output_table_psm_"))
       ),
-      pill("Modelo Jerarquico",
-           uiOutput(ns("output_table_jerarquico_"))
-      ))
+      # pill("Modelo Jerarquico",
+      #      uiOutput(ns("output_table_jerarquico_"))
+      # )
+      )
   )
 }
 
 #' modelo_programas Server Functions
 #'
 #' @noRd
-mod_modelo_programas_server <- function(id, datos, datos_demograficos, detalle, resumen_jeq){
+mod_modelo_programas_server <- function(id, datos, datos_demograficos, detalle, resumen_jerq){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
@@ -79,7 +80,7 @@ mod_modelo_programas_server <- function(id, datos, datos_demograficos, detalle, 
       output_ = tagList(
         tags$h2("Propensity Score Matching", class = "center-text"),
         tags$p("El Propensity Score Matching es una técnica estadística que permite comparar dos grupos de individuos que comparten características similares. En este caso, se compara el desempeño de los estudiantes en la prueba Saber 11 con su desempeño en la prueba Saber Pro.", class = "justify-text"),
-        tags$p("Explicaicon de para que se uso el modelo para hacer el ranking de valor agregado.", class = "justify-text"),
+        tags$p("Este método se utiliza como base para el ranking de de programas, diseñado para comparar el progreso de estudiantes similares en diferentes instituciones. Primero, agrupamos a los estudiantes con características similares y los comparamos con otros de manera imparcial. Luego, evaluamos cómo cada institución contribuye al crecimiento académico de sus estudiantes en relación con otras. Es una forma equitativa de medir el valor añadido de cada universidad.", class = "justify-text"),
         tags$br(),
         bs5_card(table,title = "Ranking de Programas por PSM"),
         tags$br(),
@@ -149,6 +150,32 @@ mod_modelo_programas_server <- function(id, datos, datos_demograficos, detalle, 
       graficos_distribucion_modelado(datos_con_muestra(),input$variable_modelo_, detalle)
 
     })
+
+    output$output_table_jerarquico_ <- renderUI({
+
+      table = DT::renderDataTable(resumen_jerq,
+                                  style = "bootstrap5",
+                                  filter = "top",
+                                  options = list(
+                                    autoWidth = F,
+                                    searchHighlight = TRUE
+                                  )
+      )
+
+      tagList(
+        tags$h2("Modelo Lineal Jerárquico", class = "center-text"),
+        tags$p("El modelo lineal jerarquico es...", class = "justify-text"),
+        tags$p("Explicaicon de para que se uso el modelo para hacer el ranking de valor agregado.", class = "justify-text"),
+        tags$br(),
+        bs5_card(table,title = "Ranking de Programas por Modelo Lineal Jerarquico"),
+        tags$br(),
+        tags$h3("Detalle Técnico", class = "center-text"),
+        tags$br(),
+        HTML(detalle_modelo_1)
+      )
+
+    })
+
 
   })
 }

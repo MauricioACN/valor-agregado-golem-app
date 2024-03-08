@@ -22,7 +22,6 @@ app_ui <- function(request) {
 
                       ) %>%
                         bs_add_rules("#my-nav { @extend .justify-content-center }"),
-
     shiny::tabPanel(title = 'Introducción',value = 'inicio',
                     mod_introduccion_ui("introduccion_1")
                     ),
@@ -81,7 +80,7 @@ app_ui <- function(request) {
                                column(6,mod_comparador_ui("comparador_2"))))
                       )
                     )
-  )
+    )
   )
   )
 }
