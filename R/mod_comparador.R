@@ -36,37 +36,36 @@ mod_comparador_server <- function(id,datos,saberPro,saber11){
     ns <- session$ns
 
     observeEvent(input$preview, {
-
-      shinyalert(
-        inputId = "conf_grafico",
-                 html = T,
-                 type = "info",
-                 showConfirmButton = TRUE,
-                 showCancelButton = T,
-                 text =
-      tagList(
-
-        fluidRow(
-          column(
-            12,
-            p("Haga clic en 'OK' directamente si desea utilizar todos los datos disponibles."),
-            hr(),
-            select_group_ui(
-              id = ns("my-filters"),
-              params = list(
-                list(inputId = "PERIODO", label = "Corte de la Prueba Saber Pro:"),
-                list(inputId = "INST_NOMBRE_INSTITUCION", label = "Universidad:"),
-                list(inputId = "ESTU_METODO_PRGM", label = "Modalidad:"),
-                list(inputId = "ESTU_PRGM_MUNICIPIO", label = "Sede Oferta del Programa:"),
-                list(inputId = "GRUPOREFERENCIA", label = "Grupo de Referencia:"),
-                list(inputId = "ESTU_PRGM_ACADEMICO", label = "Programa:")
-              ), inline = FALSE, btn_reset_label = "Resetear Filtros")
-          )
+      showModal(modalDialog(
+        title = "Configuración del Gráfico",
+        p("Haga clic en 'OK' directamente si desea utilizar todos los datos disponibles."),
+        hr(),
+        select_group_ui(
+          id = ns("my-filters"),
+          params = list(
+            list(inputId = "PERIODO", label = "Corte de la Prueba Saber Pro:"),
+            list(inputId = "INST_NOMBRE_INSTITUCION", label = "Universidad:"),
+            list(inputId = "ESTU_METODO_PRGM", label = "Modalidad:"),
+            list(inputId = "ESTU_PRGM_MUNICIPIO", label = "Sede Oferta del Programa:"),
+            list(inputId = "GRUPOREFERENCIA", label = "Grupo de Referencia:"),
+            list(inputId = "ESTU_PRGM_ACADEMICO", label = "Programa:")
+          ), inline = FALSE, btn_reset_label = "Resetear Filtros"),
+        size = "l",
+        easyClose = TRUE,
+        footer = tagList(
+          tags$div(
+            style = "width: 100%; text-align: center; margin-bottom: 10px; color: #0B355C; font-weight: bold; font-size: 14px;",
+            icon("info-circle"),
+            "Después de cerrar esta ventana, haz clic en 'Generar Gráfico' para visualizar los resultados."
+          ),
+          modalButton("Cancel"),
+          actionButton(ns("conf_grafico"), "OK", class = "btn-primary")
         )
+      ))
+    })
 
-      )
-      )
-
+    observeEvent(input$conf_grafico, {
+      removeModal()
     })
 
     df_filter <- select_group_server(
