@@ -24,7 +24,8 @@ Imports:
     plotly,
     bsicons,
     shinyjs,
-    datamods
+    datamods,
+    hexbin
 Suggests: 
     spelling,
     testthat (>= 3.0.0)

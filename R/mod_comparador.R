@@ -12,7 +12,7 @@
 #' @import shinyWidgets
 #' @importFrom shinyalert shinyalert
 #' @importFrom dplyr sample_n
-#' @importFrom shinyWidgets selectizeGroupUI selectizeGroupServer
+#' @importFrom datamods select_group_ui select_group_server
 #' @importFrom shinyjs useShinyjs
 #' @importFrom shinyalert useShinyalert
 
@@ -51,16 +51,16 @@ mod_comparador_server <- function(id,datos,saberPro,saber11){
             12,
             p("Haga clic en 'OK' directamente si desea utilizar todos los datos disponibles."),
             hr(),
-            selectizeGroupUI(
+            select_group_ui(
               id = ns("my-filters"),
               params = list(
-                Preg1 = list(inputId = "PERIODO", label = "Corte de la Prueba Saber Pro:"),
-                Preg2 = list(inputId = "INST_NOMBRE_INSTITUCION", title = "Universidad:"),
-                Preg3 = list(inputId = "ESTU_METODO_PRGM", title = "Modalidad:"),
-                Preg4 = list(inputId = "ESTU_PRGM_MUNICIPIO", title = "Sede Oferta del Programa:"),
-                Preg5 = list(inputId = "GRUPOREFERENCIA", title = "Grupo de Referencia:"),
-                Preg6 = list(inputId = "ESTU_PRGM_ACADEMICO", title = "Programa:")
-              ),inline = FALSE, btn_label = "Resetear Filtros")
+                list(inputId = "PERIODO", label = "Corte de la Prueba Saber Pro:"),
+                list(inputId = "INST_NOMBRE_INSTITUCION", label = "Universidad:"),
+                list(inputId = "ESTU_METODO_PRGM", label = "Modalidad:"),
+                list(inputId = "ESTU_PRGM_MUNICIPIO", label = "Sede Oferta del Programa:"),
+                list(inputId = "GRUPOREFERENCIA", label = "Grupo de Referencia:"),
+                list(inputId = "ESTU_PRGM_ACADEMICO", label = "Programa:")
+              ), inline = FALSE, btn_reset_label = "Resetear Filtros")
           )
         )
 
@@ -69,12 +69,10 @@ mod_comparador_server <- function(id,datos,saberPro,saber11){
 
     })
 
-    df_filter <- callModule(
-      module = selectizeGroupServer,
+    df_filter <- select_group_server(
       id = "my-filters",
-      data = datos,
-      vars = names(datos),
-      inline = FALSE
+      data_r = reactive(datos),
+      vars_r = reactive(names(datos))
     )
 
     output$mensajeOutput <- renderText({
@@ -108,19 +106,8 @@ mod_comparador_server <- function(id,datos,saberPro,saber11){
     })
 
     datos_clean_1 <- reactive({
-
-      if (input$generate_graph > 0) {
-        # Actualizar solo cuando se hace clic en "Actualizar Gráfico"
-        if (nrow(df_filter()) >8000) {
-          df_filter() %>% sample_n(size = 8000)
-        } else {
-          df_filter()
-        }
-      } else {
-        # No actualizar automáticamente
-        req(df_filter())
-      }
-    })
+      df_filter()
+    }) |> bindEvent(input$generate_graph)
 
     mediaPro <- reactive({
       calculate_mean_pro(saberPro, grupo = unique(datos_clean_1()$GRUPOREFERENCIA))

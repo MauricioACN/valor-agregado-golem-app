@@ -321,35 +321,38 @@ create_graph_general_var <- function(datos, mediasSaber11, mediasSaberPro, prueb
 
   theme_set(theme_bw())
 
-  ##Puntaje global##
-    ggplot(datos, aes(x = x , y = y)) +
-      geom_point(aes(color = periodoAux, shape = periodoAux)) +
-      labs(
-           y = "Saber Pro",
-           x = "Saber 11",
-           col = "Periodo",
-           shape = "Periodo"
-      ) +
-      geom_hline(yintercept = mediaPro, linetype="dashed", color = "#0B355C", size = 1.05, show.legend = T) +
-      geom_vline(xintercept = media11, linetype="dashed", color = "#0B355C", size = 1.05) +
-      geom_text(aes(x = media11, label = paste(round(media11, 0)), y = min(y) - 10),  #vertical
-                colour = "#0B355C", angle = 0, hjust = 1.1,
-                size = 5) +
-      geom_text(aes(x = min(x) - 5, label = paste(round(mediaPro,0)), y = mediaPro), #horizontal
-                colour = "#0B355C", angle = 0, vjust = 1.5,
-                size = 5) +
-      geom_text(aes(x = max(x), y = max(y), label = paste(round(pc1, 0), "%")),  #Proporción cuadrante1
-                colour = "#0B355C", angle = 0, hjust = 1,
-                size = 5) +
-      geom_text(aes(x = min(x), y = max(y), label = paste(round(pc2, 0), "%")),  #Proporción cuadrante2
-                colour = "#0B355C", angle = 0, hjust = 0,
-                size = 5) +
-      geom_text(aes(x = min(x), y = min(y), label = paste(round(pc3, 0), "%")),  #Proporción cuadrante3
-                colour = "#0B355C", angle = 0, hjust = 0,
-                size = 5) +
-      geom_text(aes(x = max(x), y = min(y), label = paste(round(pc4, 0), "%")),  #Proporción cuadrante4
-                colour = "#0B355C", angle = 0, hjust = 1,
-                size = 5)
+  # Rangos para posicionar las etiquetas
+  xmin <- min(datos$x, na.rm = TRUE)
+  xmax <- max(datos$x, na.rm = TRUE)
+  ymin <- min(datos$y, na.rm = TRUE)
+  ymax <- max(datos$y, na.rm = TRUE)
+
+  ggplot(datos, aes(x = x, y = y)) +
+    geom_hex(bins = 30, alpha = 0.85) +
+    scale_fill_gradient(low = "#E8A87C", high = "#1B6B93", name = "Estudiantes") +
+    labs(y = "Saber Pro", x = "Saber 11") +
+    geom_hline(yintercept = mediaPro, linetype = "dashed", color = "#0B355C", linewidth = 1.05) +
+    geom_vline(xintercept = media11, linetype = "dashed", color = "#0B355C", linewidth = 1.05) +
+    # Etiquetas de medias
+    annotate("text", x = media11, y = ymin - 10,
+             label = paste(round(media11, 0)),
+             colour = "#0B355C", hjust = 1.1, size = 5) +
+    annotate("text", x = xmin - 5, y = mediaPro,
+             label = paste(round(mediaPro, 0)),
+             colour = "#0B355C", vjust = 1.5, size = 5) +
+    # Porcentajes por cuadrante
+    annotate("text", x = xmax, y = ymax,
+             label = paste(round(pc1, 0), "%"),
+             colour = "#0B355C", hjust = 1, size = 5) +
+    annotate("text", x = xmin, y = ymax,
+             label = paste(round(pc2, 0), "%"),
+             colour = "#0B355C", hjust = 0, size = 5) +
+    annotate("text", x = xmin, y = ymin,
+             label = paste(round(pc3, 0), "%"),
+             colour = "#0B355C", hjust = 0, size = 5) +
+    annotate("text", x = xmax, y = ymin,
+             label = paste(round(pc4, 0), "%"),
+             colour = "#0B355C", hjust = 1, size = 5)
 
 }
 
