@@ -54,11 +54,12 @@ mod_comparador_server <- function(id,datos,saberPro,saber11){
             selectizeGroupUI(
               id = ns("my-filters"),
               params = list(
-                Preg1 = list(inputId = "INST_NOMBRE_INSTITUCION", title = "Universidad:"),
-                Preg2 = list(inputId = "ESTU_METODO_PRGM", title = "Modalidad:"),
-                Preg3 = list(inputId = "ESTU_PRGM_MUNICIPIO", title = "Sede Oferta del Programa:"),
-                Preg4 = list(inputId = "GRUPOREFERENCIA", title = "Grupo de Referencia:"),
-                Preg5 = list(inputId = "ESTU_PRGM_ACADEMICO", title = "Programa:")
+                Preg1 = list(inputId = "PERIODO", label = "Corte de la Prueba Saber Pro:"),
+                Preg2 = list(inputId = "INST_NOMBRE_INSTITUCION", title = "Universidad:"),
+                Preg3 = list(inputId = "ESTU_METODO_PRGM", title = "Modalidad:"),
+                Preg4 = list(inputId = "ESTU_PRGM_MUNICIPIO", title = "Sede Oferta del Programa:"),
+                Preg5 = list(inputId = "GRUPOREFERENCIA", title = "Grupo de Referencia:"),
+                Preg6 = list(inputId = "ESTU_PRGM_ACADEMICO", title = "Programa:")
               ),inline = FALSE, btn_label = "Resetear Filtros")
           )
         )
