@@ -13,7 +13,7 @@ mod_introduccion_ui <- function(id){
 
     # h1('Presentación'),
     div(img(src='www/campus.jpeg',
-            width = 1690,
+            width = "100%",
             height = 600
             ),style="text-align: center;"),
     h2("Facultad de Ingeniería, Diseño e Innovación | Escuela de Ciencias Básicas",align = "center"),
@@ -181,7 +181,6 @@ mod_introduccion_ui <- function(id){
 mod_introduccion_server <- function(id){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
-
 
   })
 }

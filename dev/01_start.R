@@ -57,6 +57,8 @@ usethis::use_package('DT')
 usethis::use_package('shinyalert')
 usethis::use_pipe()
 usethis::use_package('bsicons')
+usethis::use_package('shinyjs')
+usethis::use_package('datamods')
 
 ## Init Testing Infrastructure ----
 ## Create a template for tests

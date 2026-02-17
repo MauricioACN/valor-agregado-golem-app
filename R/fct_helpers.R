@@ -16,6 +16,19 @@
 
 thematic::thematic_on(bg="auto",fg="auto",accent = "auto", font = "auto")
 
+bs5_card <- function(body, title = NULL, footer_text = NULL) {
+  div(
+    class = "card",
+    div(class = "card-header bg-primary", title),
+    div(class = "card-body d-flex justify-content-center", body),
+    div(class = "card-footer", footer_text)
+  )
+}
+
+pill <- function(...) {
+  shiny::tabPanel(..., class = "p-3 border rounded")
+}
+
 grafico_bar_hor <- function(nivel,variable_x){
 
   theme_set(theme_bw())
@@ -95,8 +108,8 @@ clean_resultados <- function(data, n_sample=NA, grupo=NA){
 
 
 calculate_mean_pro <- function(mediasSaberPro,grupo){
-
-  if (grupo == 'Todos') {
+  ### si se selecciona mas de un grupo de referencia se va a comprar contra el promedio Nacional
+  if (length(grupo)>1) {
 
     mediaPro = mediasSaberPro %>% filter(GRUPOREFERENCIA=='Grupo Referencia Nacional')
 
@@ -250,7 +263,7 @@ create_graph_general <- function(datos, mediasSaber11, mediasSaberPro, grupo, pr
 }
 
 
-create_graph_general_var <- function(datos, mediasSaber11, mediasSaberPro, grupo, prueba){
+create_graph_general_var <- function(datos, mediasSaber11, mediasSaberPro, prueba){
 
   y <- prueba
   if(y == "MOD_LECTURA_CRITICA_PUNT"){
@@ -356,6 +369,8 @@ create_graph_general_var <- function(datos, mediasSaber11, mediasSaberPro, grupo
 
 graficos_distribucion_modelado <- function(datos, variable,nivel_modelo){
 
+  theme_set(theme_bw())
+
   if (variable %in% c('inse_imputado','Global.11','Global.11.Z')) {
 
     ggplot(datos, aes_string(x=variable, fill = 'treat',colour = 'treat')) +
@@ -365,7 +380,7 @@ graficos_distribucion_modelado <- function(datos, variable,nivel_modelo){
   else{
 
     ggplot(datos, aes_string(x=variable, fill = 'treat')) +
-      geom_bar(aes(y = (..count..)/sum(..count..)), position = "dodge")+
+      geom_bar(aes(y = (after_stat(count))/sum(after_stat(count))), position = "dodge")+
       theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
       scale_y_continuous(name = "Proporción")+
       scale_fill_discrete(name = "Contrastes",
@@ -377,3 +392,187 @@ graficos_distribucion_modelado <- function(datos, variable,nivel_modelo){
 
 }
 
+
+calculate_values_for_text_herp = function(prueba,mediasSaberPro,mediasSaber11,datos) {
+  y <- prueba
+  if(y == "MOD_LECTURA_CRITICA_PUNT"){
+    x <- "Lectura_critica.11"
+    subtitulo <- "Lectura crítica"}
+  if(y == "MOD_RAZONA_CUANTITAT_PUNT"){
+    x <- "Matematicas.11"
+    subtitulo <- "Razonamiento cuantitativo"}
+  if(y == "MOD_INGLES_PUNT"){
+    x <- "Ingles.11"
+    subtitulo <- "Inglés"}
+  if(y == "PUNT_GLOBAL.x"){
+    x <- "Global.11"
+    subtitulo <- "Puntaje global"}
+
+  mediaPro <- mediasSaberPro %>% select(all_of(prueba))
+  mediaPro <- as.numeric(mediaPro)
+
+  media11 <- mediasSaber11[x]
+  media11 <- as.numeric(media11)
+
+  nombres <- c(x, y)
+  datos <- datos %>% select(all_of(nombres), periodoAux)
+
+  datos$periodoAux <- as.character(datos$periodoAux)
+  colnames(datos) <- c("x", "y", "periodoAux")
+
+  datos <- datos %>% mutate(cuadrante = ifelse(x >= media11 & y >= mediaPro, "c1",
+                                               ifelse(x < media11 & y >= mediaPro, "c2",
+                                                      ifelse(x < media11 & y < mediaPro, "c3",
+                                                             ifelse(x >= media11 & y < mediaPro, "c4", NA)))))
+
+
+  datos <- na.omit(datos)
+  nivel <- datos %>% group_by(cuadrante) %>% summarise(n())
+  colnames(nivel) <- c("cuadrante", "Estudiantes")
+  total <- sum(nivel$Estudiantes)
+  nivel <- nivel %>% mutate(porcentaje = Estudiantes / total *100)
+
+  pc1 <- as.numeric(nivel %>% filter(cuadrante == "c1") %>% select(porcentaje))
+  pc2 <- as.numeric(nivel %>% filter(cuadrante == "c2") %>% select(porcentaje))
+  pc3 <- as.numeric(nivel %>% filter(cuadrante == "c3") %>% select(porcentaje))
+  pc4 <- as.numeric(nivel %>% filter(cuadrante == "c4") %>% select(porcentaje))
+
+  if(is.na(pc1)){pc1 <- 0}
+  if(is.na(pc2)){pc2 <- 0}
+  if(is.na(pc3)){pc3 <- 0}
+  if(is.na(pc4)){pc4 <- 0}
+
+  return(list(pc1= pc1, pc2 = pc2, pc3 = pc3, pc4 = pc4, media11 = media11, mediapro = mediaPro))
+}
+
+
+fill_card = function(nombre_universidad = NULL,
+                     link_universidad = NULL,
+                     posicion_universidad = NULL,
+                     estudiantes_universidad = NULL,
+                     primary_card = FALSE
+                     ) {
+
+  if (is.null(nombre_universidad)) {
+    nombre_universidad = "Universidad Nacional de Colombia"
+  }
+
+  if (is.null(link_universidad)) {
+    link_universidad = "https://unal.edu.co/"
+  }
+
+  if(is.null(posicion_universidad)) {
+    posicion_universidad = "#20"
+  }
+
+  if(is.null(estudiantes_universidad)) {
+    estudiantes_universidad = "20000"
+  }
+
+  if(primary_card) {
+    height_card = "430px"
+  }else{
+    height_card = "200px"
+  }
+
+  card(
+    height = height_card,
+    # fillable = FALSE,
+    card_body(
+      fillable = FALSE,
+      card_title(nombre_universidad, class = "center-text"),
+      tags$hr(),
+      p(
+        class = "center-text",
+        paste0("Posicion: ",posicion_universidad,"*")
+      ),
+      p(
+        class = "center-text",
+        paste0("Estudiantes: ",estudiantes_universidad,"**")
+      )
+    ),
+      class = "card2-container"
+    )
+}
+
+create_text_for_graph_interpretation_comp = function(input_prueba = NULL,
+                                                     cuadrante = "c1",
+                                                     valor_cuadrante = 0,
+                                                     valor_media_pro = 0,
+                                                     valor_media_11 = 0
+                                                     ) {
+
+  if (cuadrante=="c1") {
+    if (input_prueba=='Puntaje Global'){
+      intro_texto = ' lograron obtener resultados superiores al promedio en el puntaje global '
+    }
+    else{
+      intro_texto = paste0(' superaron el promedio en el áeea de ',input_prueba," ")
+    }
+  }else if(cuadrante=='c2'){
+    if (input_prueba=='Puntaje Global'){
+      intro_texto = ' obtuvieron resultados superiores al promedio en el puntaje global '
+    }
+    else{
+      intro_texto = paste0(' obtuvieron resultados superiores al promedio en el área de ',input_prueba," ")
+    }
+  }else if(cuadrante=='c4'){
+    if (input_prueba=='Puntaje Global'){
+      intro_texto = ' obtuvieron resultados inferiores al promedio en el puntaje global '
+    }
+    else{
+      intro_texto = paste0(' obtuvieron resultados inferiores al promedio en el área de ',input_prueba," ")
+    }
+  }
+
+  if (cuadrante=='c1') {
+    salida = paste0("El ",sprintf("%.0f%%",valor_cuadrante),
+           " de los estudiantes", intro_texto,"tanto en la prueba Saber Pro ",
+           "(con un puntaje superior a ", valor_media_pro, " puntos) ",
+           "como en la prueba Saber 11 (con un puntaje superior a ",valor_media_11,
+           " puntos).")
+  }else if(cuadrante == 'c2'){
+    salida = paste0("El ",sprintf("%.0f%%",valor_cuadrante),
+                    " de los estudiantes", intro_texto,"en la prueba Saber Pro. ",
+                    "Sin embargo, no superaron al promedio en la prueba Saber 11.")
+  }else if(cuadrante == 'c3'){
+    salida = paste0("El ",sprintf("%.0f%%",valor_cuadrante),
+                    " de los estudiantes no superaron al promedio en ninguna de las dos pruebas.")
+  }else{
+    salida = paste0("El ",sprintf("%.0f%%",valor_cuadrante),
+                    " de los estudiantes", intro_texto,"en la prueba Saber 11. ",
+                    "Sin embargo, no superaron al promedio en la prueba Saber Pro.")
+  }
+
+  return(salida)
+
+}
+
+css_variable = ".center-text {
+  text-align: center;
+}
+
+.justify-text {
+  text-align: justify;
+}
+
+.inline {
+  display: table;
+  width: 70%;
+}
+
+.inline label {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: left;
+}
+
+.inline .form-group {
+  display: table-row;
+  flex: 0 0 auto;
+  flex-flow: row wrap;
+  align-items: center;
+  margin-bottom: 0;
+  width: 600px;
+}
+"
